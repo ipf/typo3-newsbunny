@@ -1,0 +1,23 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">
+            <core:icon identifier="apps-pagetree-root"/>
+            <f:translate key="pageTree.title"/>
+        </h4>
+    </div>
+    <div class="panel-body p-0">
+        <ul class="list-unstyled m-0">
+            <li>
+                <a href="{pageTree.allPagesUrl}" class="d-block px-2 py-1 text-truncate{f:if(condition: pageTree.allPagesCurrent, then: ' active')}"
+                   title="{f:translate(key: 'pageTree.allPages')}">
+                    <f:translate key="pageTree.allPages"/>
+                </a>
+            </li>
+            <f:render partial="NewsBunny/PageTreeBranch" arguments="{branches: pageTree.branches}"/>
+        </ul>
+    </div>
+</div>

@@ -1,0 +1,192 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:form object="{constraint}" objectName="constraint" name="constraint" action="index" class="mb-4">
+    <f:form.hidden property="sortingField"/>
+    <f:form.hidden property="sortingDirection"/>
+    <input type="hidden" name="id" value="{pageId}"/>
+
+    <details class="panel panel-default"{f:if(condition: filter.open, then: ' open')}>
+        <summary class="panel-heading">
+            <h5 class="panel-title">
+                <core:icon identifier="actions-filter"/>
+                <f:translate key="filter.title"/>
+            </h5>
+        </summary>
+        <div class="panel-body">
+            <f:if condition="{filter.enabled.searchWord}">
+                <div class="row">
+                    <div class="col-md-5 form-group">
+                        <label class="form-label" for="newsbunny-search">
+                            <f:translate key="filter.searchWord"/>
+                        </label>
+                        <f:form.textfield name="constraint[searchWord]" value="{formValues.searchWord}" id="newsbunny-search"
+                                          class="form-control"
+                                          placeholder="{f:translate(key: 'filter.searchWord.placeholder')}"/>
+                    </div>
+                </div>
+            </f:if>
+
+            <f:if condition="{filter.enabled.timeRestriction}">
+                <div class="row">
+                    <div class="col-md-3 form-group">
+                        <label class="form-label" for="newsbunny-time-restriction">
+                            <f:translate key="filter.timeRestriction"/>
+                        </label>
+                        <f:form.select name="constraint[timeRestriction]" value="{formValues.timeRestriction}"
+                                        id="newsbunny-time-restriction" class="form-select">
+                            <f:form.select.option value=""><f:translate key="filter.timeRestriction.any"/></f:form.select.option>
+                            <f:form.select.option value="day"><f:translate key="filter.timeRestriction.day"/></f:form.select.option>
+                            <f:form.select.option value="month"><f:translate key="filter.timeRestriction.month"/></f:form.select.option>
+                            <f:form.select.option value="year"><f:translate key="filter.timeRestriction.year"/></f:form.select.option>
+                        </f:form.select>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <label class="form-label" for="newsbunny-date-start">
+                            <f:translate key="filter.manualDateStart"/>
+                        </label>
+                        <f:form.textfield name="constraint[manualDateStart]" value="{formValues.manualDateStart}"
+                                          id="newsbunny-date-start" type="date"
+                                          class="form-control"/>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <label class="form-label" for="newsbunny-date-stop">
+                            <f:translate key="filter.manualDateStop"/>
+                        </label>
+                        <f:form.textfield name="constraint[manualDateStop]" value="{formValues.manualDateStop}"
+                                          id="newsbunny-date-stop" type="date"
+                                          class="form-control"/>
+                    </div>
+                </div>
+            </f:if>
+
+            <div class="row">
+                <f:if condition="{filter.enabled.topNewsRestriction}">
+                    <div class="col-md-2 form-group">
+                        <label class="form-label" for="newsbunny-topnews">
+                            <f:translate key="filter.topNewsRestriction"/>
+                        </label>
+                        <f:form.select name="constraint[topNewsRestriction]" value="{formValues.topNewsRestriction}"
+                                        id="newsbunny-topnews" class="form-select">
+                            <f:form.select.option value=""><f:translate key="filter.topNewsRestriction.any"/></f:form.select.option>
+                            <f:form.select.option value="1"><f:translate key="filter.topNewsRestriction.1"/></f:form.select.option>
+                            <f:form.select.option value="2"><f:translate key="filter.topNewsRestriction.2"/></f:form.select.option>
+                        </f:form.select>
+                    </div>
+                </f:if>
+                <f:if condition="{filter.enabled.archived}">
+                    <div class="col-md-2 form-group">
+                        <label class="form-label" for="newsbunny-archived">
+                            <f:translate key="filter.archived"/>
+                        </label>
+                        <f:form.select name="constraint[archived]" value="{formValues.archived}" id="newsbunny-archived"
+                                        class="form-select">
+                            <f:form.select.option value=""><f:translate key="filter.archived.any"/></f:form.select.option>
+                            <f:form.select.option value="1"><f:translate key="filter.archived.1"/></f:form.select.option>
+                            <f:form.select.option value="2"><f:translate key="filter.archived.2"/></f:form.select.option>
+                        </f:form.select>
+                    </div>
+                </f:if>
+                <f:if condition="{filter.enabled.hidden}">
+                    <div class="col-md-2 form-group">
+                        <label class="form-label" for="newsbunny-hidden">
+                            <f:translate key="filter.hidden"/>
+                        </label>
+                        <f:form.select name="constraint[hidden]" value="{formValues.hidden}" id="newsbunny-hidden"
+                                        class="form-select">
+                            <f:form.select.option value=""><f:translate key="filter.hidden.any"/></f:form.select.option>
+                            <f:form.select.option value="1"><f:translate key="filter.hidden.1"/></f:form.select.option>
+                            <f:form.select.option value="2"><f:translate key="filter.hidden.2"/></f:form.select.option>
+                        </f:form.select>
+                    </div>
+                </f:if>
+                <f:if condition="{filter.enabled.language}">
+                    <div class="col-md-2 form-group">
+                        <label class="form-label" for="newsbunny-language">
+                            <f:translate key="filter.language"/>
+                        </label>
+                        <f:form.select name="constraint[language]" value="{formValues.language}" id="newsbunny-language"
+                                        class="form-select">
+                            <f:form.select.option value="-1"><f:translate key="filter.language.all"/></f:form.select.option>
+                            <f:form.select.option value="0"><f:translate key="filter.language.default"/></f:form.select.option>
+                        </f:form.select>
+                    </div>
+                </f:if>
+                <div class="col-md-2 form-group">
+                    <label class="form-label" for="newsbunny-per-page">
+                        <f:translate key="filter.perPage"/>
+                    </label>
+                    <f:form.select name="constraint[perPage]" value="{formValues.perPage}" id="newsbunny-per-page"
+                                    class="form-select">
+                        <f:for each="{perPageOptions}" as="perPageOption">
+                            <f:form.select.option value="{perPageOption}">{perPageOption}</f:form.select.option>
+                        </f:for>
+                    </f:form.select>
+                </div>
+                <f:if condition="{filter.enabled.recursive}">
+                    <div class="col-md-2 d-flex align-items-end">
+                        <div class="form-check mb-3">
+                            <f:form.checkbox property="recursive" value="1" id="newsbunny-recursive"
+                                             class="form-check-input"/>
+                            <label class="form-check-label" for="newsbunny-recursive">
+                                <f:translate key="filter.recursive"/>
+                            </label>
+                        </div>
+                    </div>
+                </f:if>
+            </div>
+
+            <f:if condition="{filter.enabled.categories}">
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label class="form-label" for="newsbunny-categories">
+                            <f:translate key="filter.categories"/>
+                        </label>
+                        <f:form.select name="constraint[categories]" value="{formValues.categories}" id="newsbunny-categories"
+                                        class="form-select"
+                                        multiple="true" size="6">
+                            <f:for each="{categoryOptions}" as="categoryTitle" key="categoryUid">
+                                <f:form.select.option value="{categoryUid}">{categoryTitle}</f:form.select.option>
+                            </f:for>
+                        </f:form.select>
+                    </div>
+                    <div class="col-md-4 form-group">
+                        <f:if condition="{filter.enabled.categoryConjunction}">
+                            <label class="form-label" for="newsbunny-category-conjunction">
+                                <f:translate key="filter.categoryConjunction"/>
+                            </label>
+                            <f:form.select name="constraint[categoryConjunction]" value="{formValues.categoryConjunction}"
+                                            id="newsbunny-category-conjunction"
+                                            class="form-select">
+                                <f:form.select.option value="or"><f:translate key="filter.categoryConjunction.or"/></f:form.select.option>
+                                <f:form.select.option value="and"><f:translate key="filter.categoryConjunction.and"/></f:form.select.option>
+                                <f:form.select.option value="notor"><f:translate key="filter.categoryConjunction.notor"/></f:form.select.option>
+                                <f:form.select.option value="notand"><f:translate key="filter.categoryConjunction.notand"/></f:form.select.option>
+                            </f:form.select>
+                        </f:if>
+                        <f:if condition="{filter.enabled.includeSubCategories}">
+                            <div class="form-check mt-2">
+                                <f:form.checkbox property="includeSubCategories" value="1"
+                                                 id="newsbunny-include-subcategories" class="form-check-input"/>
+                                <label class="form-check-label" for="newsbunny-include-subcategories">
+                                    <f:translate key="filter.includeSubCategories"/>
+                                </label>
+                            </div>
+                        </f:if>
+                    </div>
+                </div>
+            </f:if>
+        </div>
+        <div class="panel-footer">
+            <button type="submit" class="btn btn-primary">
+                <core:icon identifier="actions-filter"/>
+                <f:translate key="filter.submit"/>
+            </button>
+            <a href="{resetUrl}" class="btn btn-secondary">
+                <core:icon identifier="actions-refresh"/>
+                <f:translate key="filter.reset"/>
+            </a>
+        </div>
+    </details>
+</f:form>

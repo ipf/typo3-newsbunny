@@ -1,0 +1,37 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:for each="{branches}" as="branch">
+    <li>
+        <f:if condition="{branch.children}">
+            <f:then>
+                <details class="newsbunny-page-tree-branch"{f:if(condition: branch.expanded, then: ' open')}>
+                    <summary class="px-2 py-1 text-truncate{f:if(condition: branch.current, then: ' active')}"
+                             title="{branch.path}"
+                             style="padding-left: {branch.level}px">
+                        <a href="{branch.url}" class="text-decoration-none">
+                            <core:icon identifier="apps-pagetree-page-default"/>
+                            {branch.title}
+                        </a>
+                        <f:if condition="{branch.hidden}">
+                            <span class="badge badge-warning"><f:translate key="storagePages.hidden"/></span>
+                        </f:if>
+                    </summary>
+                    <f:render partial="NewsBunny/PageTreeBranch" arguments="{branches: branch.children}"/>
+                </details>
+            </f:then>
+            <f:else>
+                <a href="{branch.url}" class="d-block px-2 py-1 text-truncate{f:if(condition: branch.current, then: ' active')}"
+                   title="{branch.path}"
+                   style="padding-left: {branch.level}px">
+                    <core:icon identifier="apps-pagetree-page-default"/>
+                    {branch.title}
+                    <f:if condition="{branch.hidden}">
+                        <span class="badge badge-warning"><f:translate key="storagePages.hidden"/></span>
+                    </f:if>
+                </a>
+            </f:else>
+        </f:if>
+    </li>
+</f:for>

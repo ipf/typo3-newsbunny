@@ -1,0 +1,28 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:layout name="Module"/>
+
+<f:section name="Content">
+    <h1><f:translate key="delete.title"/></h1>
+
+    <f:be.infobox state="{f:constant(name: 'TYPO3\\CMS\\Core\\Type\\ContextualFeedbackSeverity::WARNING')}"
+                  title="{f:translate(key: 'delete.question', arguments: {0: record.title, 1: record.uid})}">
+        <p><f:translate key="delete.location" arguments="{0: record.page.path}"/></p>
+        <p><f:translate key="delete.hint"/></p>
+    </f:be.infobox>
+
+    <f:form action="deleteRecord" arguments="{uid: record.uid}" class="mt-3">
+        <input type="hidden" name="id" value="{context.pageId}"/>
+        <button type="submit" class="btn btn-danger">
+            <core:icon identifier="actions-delete"/>
+            <f:translate key="delete.submit"/>
+        </button>
+        <a href="{cancelUrl}" class="btn btn-secondary">
+            <f:translate key="delete.cancel"/>
+        </a>
+    </f:form>
+</f:section>
+
+</html>

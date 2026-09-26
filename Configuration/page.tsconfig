@@ -1,0 +1,45 @@
+// Default settings of the NewsBunny module.
+//
+// The settings are read per page, so they can be overwritten in the page TSconfig
+// of the page which is currently selected in the module.
+tx_newsbunny.module {
+    columns = teaser,datetime,categories,status
+    hidePageTree = 0
+    defaultPage = 0
+    allowedPage = 0
+    redirectToPageOnStart = 0
+    defaultPid {
+        tx_news_domain_model_news = 0
+        sys_category = 0
+        tx_news_domain_model_tag = 0
+    }
+    localizationView = 1
+    controlPanels = 1
+    alwaysShowFilter = 1
+    allowedCategoryRootIds =
+    preselect {
+        timeRestriction =
+        topNewsRestriction =
+        archived =
+        hidden =
+        language = -1
+        categoryConjunction = or
+        includeSubCategories = 0
+        recursive = 0
+        sortingField = datetime
+        sortingDirection = desc
+        perPage = 20
+    }
+    filters {
+        searchWord = 1
+        timeRestriction = 1
+        topNewsRestriction = 1
+        archived = 1
+        hidden = 1
+        language = 1
+        categories = 1
+        categoryConjunction = 1
+        includeSubCategories = 1
+        recursive = 1
+    }
+}

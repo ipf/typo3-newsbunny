@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+    <g fill="currentColor">
+        <ellipse cx="24" cy="12" rx="3.6" ry="10" transform="rotate(-14 24 12)"/>
+        <ellipse cx="40" cy="12" rx="3.6" ry="10" transform="rotate(14 40 12)"/>
+        <path fill-rule="evenodd"
+              d="M14 18h22l12 12v26a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4V22a4 4 0 0 1 4-4zm3 24v4h26v-4H17zm0 8v4h18v-4H17z"/>
+        <path d="M36 18l12 12h-8a4 4 0 0 1-4-4v-8z"/>
+    </g>
+</svg>

@@ -1,0 +1,30 @@
+{
+    "name": "ipf/news_bunny",
+    "description": "NewsBunny - backend administration module for EXT:news (record list with filters, storage page listing, record creation)",
+    "type": "typo3-cms-extension",
+    "license": "GPL-2.0-or-later",
+    "keywords": [
+        "TYPO3",
+        "extension",
+        "news",
+        "backend",
+        "administration"
+    ],
+    "require": {
+        "georgringer/news": "^14.1",
+        "typo3/cms-backend": "^14.3",
+        "typo3/cms-core": "^14.3",
+        "typo3/cms-extbase": "^14.3",
+        "typo3/cms-fluid": "^14.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ipf\\NewsBunny\\": "Classes/"
+        }
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "news_bunny"
+        }
+    }
+}

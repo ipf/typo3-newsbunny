@@ -1,0 +1,4 @@
+/Documentation/_build/
+/.idea/
+/.php-cs-fixer.cache
+.DS_Store

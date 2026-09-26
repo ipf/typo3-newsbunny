@@ -1,0 +1,34 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<div class="row row-cols-1 row-cols-md-3 g-2 mb-4">
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body py-2">
+                <div class="text-body-secondary small"><f:translate key="dashboard.news"/></div>
+                <div class="fs-4">{counts.news}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body py-2">
+                <div class="text-body-secondary small"><f:translate key="dashboard.categories"/></div>
+                <div class="fs-4">{counts.categories}</div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card h-100">
+            <div class="card-body py-2">
+                <div class="text-body-secondary small"><f:translate key="dashboard.tags"/></div>
+                <div class="fs-4">{counts.tags}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<f:render partial="NewsBunny/Filter" arguments="{_all}"/>
+<f:render partial="NewsBunny/RecordTable" arguments="{_all}"/>
+<f:render partial="NewsBunny/Pagination" arguments="{_all}"/>

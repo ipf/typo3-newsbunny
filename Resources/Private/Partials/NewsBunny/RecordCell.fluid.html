@@ -1,0 +1,130 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:switch expression="{column}">
+    <f:case value="title">
+        <core:icon identifier="{record.typeIconIdentifier}"/>
+        <f:if condition="{record.editUrl}">
+            <f:then>
+                <a href="{record.editUrl}" class="fw-bold">{record.title}</a>
+            </f:then>
+            <f:else>
+                <span class="fw-bold">{record.title}</span>
+            </f:else>
+        </f:if>
+        <f:if condition="{record.tagsList}">
+            <div class="small">
+                <f:translate key="list.tags" arguments="{0: record.tagsList}"/>
+            </div>
+        </f:if>
+    </f:case>
+
+    <f:case value="teaser">
+        <f:if condition="{record.teaser}">
+            <f:then>
+                <f:translate key="list.teaser" arguments="{0: record.teaser}"/>
+            </f:then>
+            <f:else>
+                <span class="text-body-secondary"><f:translate key="list.noTeaser"/></span>
+            </f:else>
+        </f:if>
+    </f:case>
+
+    <f:case value="datetime">
+        <f:format.date format="d.m.Y H:i">{record.datetime}</f:format.date>
+    </f:case>
+
+    <f:case value="archive">
+        <f:if condition="{record.archive}">
+            <f:format.date format="d.m.Y H:i">{record.archive}</f:format.date>
+        </f:if>
+    </f:case>
+
+    <f:case value="crdate">
+        <f:format.date format="d.m.Y H:i">{record.crdate}</f:format.date>
+    </f:case>
+
+    <f:case value="tstamp">
+        <f:format.date format="d.m.Y H:i">{record.tstamp}</f:format.date>
+    </f:case>
+
+    <f:case value="author">
+        {record.author}
+    </f:case>
+
+    <f:case value="path_segment">
+        <code>{record.pathSegment}</code>
+    </f:case>
+
+    <f:case value="uid">
+        {record.uid}
+    </f:case>
+
+    <f:case value="categories">
+        <f:if condition="{record.categories}">
+            <f:then>
+                <f:join value="{record.categories}" separator=", "/>
+            </f:then>
+            <f:else>
+                <span class="text-body-secondary"><f:translate key="list.noCategories"/></span>
+            </f:else>
+        </f:if>
+    </f:case>
+
+    <f:case value="tags">
+        <f:if condition="{record.tagsList}">
+            <f:then>
+                {record.tagsList}
+            </f:then>
+            <f:else>
+                <span class="text-body-secondary"><f:translate key="list.noTags"/></span>
+            </f:else>
+        </f:if>
+    </f:case>
+
+    <f:case value="page">
+        <f:if condition="{record.page}">
+            <f:then>
+                <span title="{record.page.path}">{record.page.title}</span>
+                <f:if condition="{record.page.hidden}">
+                    <span class="badge badge-warning"><f:translate key="storagePages.hidden"/></span>
+                </f:if>
+            </f:then>
+            <f:else>
+                <span class="text-body-secondary"><f:translate key="list.noPage"/></span>
+            </f:else>
+        </f:if>
+    </f:case>
+
+    <f:case value="language">
+        <f:if condition="{record.sysLanguageUid}">
+            <f:then>
+                <span class="badge badge-info">
+                    <f:translate key="list.badge.language" arguments="{0: record.sysLanguageUid}"/>
+                </span>
+            </f:then>
+            <f:else>
+                <span class="badge"><f:translate key="list.badge.defaultLanguage"/></span>
+            </f:else>
+        </f:if>
+    </f:case>
+
+    <f:case value="status">
+        <f:if condition="{record.isHidden}">
+            <span class="badge badge-danger"><f:translate key="list.badge.hidden"/></span>
+        </f:if>
+        <f:if condition="{record.isTopNews}">
+            <span class="badge badge-primary"><f:translate key="list.badge.topnews"/></span>
+        </f:if>
+        <f:if condition="{record.isArchived}">
+            <span class="badge badge-warning"><f:translate key="list.badge.archived"/></span>
+        </f:if>
+        <f:if condition="{record.isTimeRestricted}">
+            <span class="badge badge-info"><f:translate key="list.badge.timeRestricted"/></span>
+        </f:if>
+        <f:if condition="{!record.isHidden}{!record.isTopNews}{!record.isArchived}{!record.isTimeRestricted}">
+            <span class="text-body-secondary">-</span>
+        </f:if>
+    </f:case>
+</f:switch>

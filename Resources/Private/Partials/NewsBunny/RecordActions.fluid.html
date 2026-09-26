@@ -1,0 +1,65 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:if condition="{controlPanels}">
+    <f:then>
+        <f:if condition="{record.toggleUrl}">
+            <f:then>
+                <f:form action="toggleRecord" class="d-inline">
+                    <input type="hidden" name="uid" value="{record.uid}"/>
+                    <input type="hidden" name="id" value="{pageId}"/>
+                    <f:if condition="{record.isHidden}">
+                        <button type="submit" class="btn btn-default btn-sm"
+                                title="{f:translate(key: 'list.action.show')}"
+                                aria-label="{f:translate(key: 'list.action.show')}">
+                            <core:icon identifier="overlay-hidden"/>
+                        </button>
+                    </f:if>
+                    <f:if condition="{!record.isHidden}">
+                        <button type="submit" class="btn btn-default btn-sm"
+                                title="{f:translate(key: 'list.action.hide')}"
+                                aria-label="{f:translate(key: 'list.action.hide')}">
+                            <core:icon identifier="actions-eye"/>
+                        </button>
+                    </f:if>
+                </f:form>
+            </f:then>
+        </f:if>
+        <f:if condition="{sortable}">
+            <f:then>
+                <f:form action="moveRecord" class="d-inline">
+                    <input type="hidden" name="uid" value="{record.uid}"/>
+                    <input type="hidden" name="direction" value="up"/>
+                    <input type="hidden" name="id" value="{pageId}"/>
+                    <button type="submit" class="btn btn-default btn-sm"
+                            title="{f:translate(key: 'list.action.moveUp')}"
+                            aria-label="{f:translate(key: 'list.action.moveUp')}">
+                        <core:icon identifier="actions-arrow-up"/>
+                    </button>
+                </f:form>
+                <f:form action="moveRecord" class="d-inline">
+                    <input type="hidden" name="uid" value="{record.uid}"/>
+                    <input type="hidden" name="direction" value="down"/>
+                    <input type="hidden" name="id" value="{pageId}"/>
+                    <button type="submit" class="btn btn-default btn-sm"
+                            title="{f:translate(key: 'list.action.moveDown')}"
+                            aria-label="{f:translate(key: 'list.action.moveDown')}">
+                        <core:icon identifier="actions-arrow-down"/>
+                    </button>
+                </f:form>
+            </f:then>
+        </f:if>
+    </f:then>
+</f:if>
+
+<f:if condition="{record.editUrl}">
+    <a href="{record.editUrl}" class="btn btn-default btn-sm" title="{f:translate(key: 'list.actions.edit')}">
+        <f:translate key="list.actions.edit"/>
+    </a>
+</f:if>
+<f:if condition="{record.deleteUrl}">
+    <a href="{record.deleteUrl}" class="btn btn-danger btn-sm" title="{f:translate(key: 'list.actions.delete')}">
+        <f:translate key="list.actions.delete"/>
+    </a>
+</f:if>

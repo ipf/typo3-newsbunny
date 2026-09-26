@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages">
+		<header/>
+		<body>
+			<trans-unit id="module.subtitle" xml:space="preserve">
+				<source>Record management for EXT:news</source>
+			</trans-unit>
+			<trans-unit id="list.title" xml:space="preserve">
+				<source>News records</source>
+			</trans-unit>
+			<trans-unit id="list.total" xml:space="preserve">
+				<source>%1$s of %2$s news records</source>
+			</trans-unit>
+			<trans-unit id="list.empty" xml:space="preserve">
+				<source>No news records found</source>
+			</trans-unit>
+			<trans-unit id="list.emptyHint" xml:space="preserve">
+				<source>Adjust or reset the filters to see more records. News records are only listed if they are stored on a page you have access to.</source>
+			</trans-unit>
+			<trans-unit id="list.column.title" xml:space="preserve">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="list.column.datetime" xml:space="preserve">
+				<source>Date</source>
+			</trans-unit>
+			<trans-unit id="list.column.page" xml:space="preserve">
+				<source>Storage page</source>
+			</trans-unit>
+			<trans-unit id="list.column.categories" xml:space="preserve">
+				<source>Categories</source>
+			</trans-unit>
+			<trans-unit id="list.column.status" xml:space="preserve">
+				<source>Status</source>
+			</trans-unit>
+			<trans-unit id="list.actions.edit" xml:space="preserve">
+				<source>Edit</source>
+			</trans-unit>
+			<trans-unit id="list.actions.delete" xml:space="preserve">
+				<source>Delete</source>
+			</trans-unit>
+			<trans-unit id="list.teaser" xml:space="preserve">
+				<source>Teaser: %1$s</source>
+			</trans-unit>
+			<trans-unit id="list.noPage" xml:space="preserve">
+				<source>Page not accessible</source>
+			</trans-unit>
+			<trans-unit id="list.noCategories" xml:space="preserve">
+				<source>No categories</source>
+			</trans-unit>
+			<trans-unit id="list.badge.hidden" xml:space="preserve">
+				<source>Hidden</source>
+			</trans-unit>
+			<trans-unit id="list.badge.topnews" xml:space="preserve">
+				<source>Top news</source>
+			</trans-unit>
+			<trans-unit id="list.badge.archived" xml:space="preserve">
+				<source>Archived</source>
+			</trans-unit>
+			<trans-unit id="list.badge.timeRestricted" xml:space="preserve">
+				<source>Time restricted</source>
+			</trans-unit>
+			<trans-unit id="list.badge.language" xml:space="preserve">
+				<source>Language %1$s</source>
+			</trans-unit>
+			<trans-unit id="list.tags" xml:space="preserve">
+				<source>Tags: %1$s</source>
+			</trans-unit>
+			<trans-unit id="filter.submit" xml:space="preserve">
+				<source>Apply filters</source>
+			</trans-unit>
+			<trans-unit id="filter.reset" xml:space="preserve">
+				<source>Reset filters</source>
+			</trans-unit>
+			<trans-unit id="filter.searchWord" xml:space="preserve">
+				<source>Full text search</source>
+			</trans-unit>
+			<trans-unit id="filter.searchWord.placeholder" xml:space="preserve">
+				<source>Title, teaser and body text</source>
+			</trans-unit>
+			<trans-unit id="filter.timeRestriction" xml:space="preserve">
+				<source>Time</source>
+			</trans-unit>
+			<trans-unit id="filter.timeRestriction.any" xml:space="preserve">
+				<source>Any time</source>
+			</trans-unit>
+			<trans-unit id="filter.timeRestriction.day" xml:space="preserve">
+				<source>Today</source>
+			</trans-unit>
+			<trans-unit id="filter.timeRestriction.month" xml:space="preserve">
+				<source>This month</source>
+			</trans-unit>
+			<trans-unit id="filter.timeRestriction.year" xml:space="preserve">
+				<source>This year</source>
+			</trans-unit>
+			<trans-unit id="filter.manualDateStart" xml:space="preserve">
+				<source>From</source>
+			</trans-unit>
+			<trans-unit id="filter.manualDateStop" xml:space="preserve">
+				<source>Until</source>
+			</trans-unit>
+			<trans-unit id="filter.topNewsRestriction" xml:space="preserve">
+				<source>Top news</source>
+			</trans-unit>
+			<trans-unit id="filter.topNewsRestriction.any" xml:space="preserve">
+				<source>All</source>
+			</trans-unit>
+			<trans-unit id="filter.topNewsRestriction.1" xml:space="preserve">
+				<source>Top news only</source>
+			</trans-unit>
+			<trans-unit id="filter.topNewsRestriction.2" xml:space="preserve">
+				<source>No top news</source>
+			</trans-unit>
+			<trans-unit id="filter.archived" xml:space="preserve">
+				<source>Archive</source>
+			</trans-unit>
+			<trans-unit id="filter.archived.any" xml:space="preserve">
+				<source>All</source>
+			</trans-unit>
+			<trans-unit id="filter.archived.1" xml:space="preserve">
+				<source>Not archived</source>
+			</trans-unit>
+			<trans-unit id="filter.archived.2" xml:space="preserve">
+				<source>Archived</source>
+			</trans-unit>
+			<trans-unit id="filter.hidden" xml:space="preserve">
+				<source>Visibility</source>
+			</trans-unit>
+			<trans-unit id="filter.hidden.any" xml:space="preserve">
+				<source>All</source>
+			</trans-unit>
+			<trans-unit id="filter.hidden.1" xml:space="preserve">
+				<source>Hidden</source>
+			</trans-unit>
+			<trans-unit id="filter.hidden.2" xml:space="preserve">
+				<source>Visible</source>
+			</trans-unit>
+			<trans-unit id="filter.language" xml:space="preserve">
+				<source>Language</source>
+			</trans-unit>
+			<trans-unit id="filter.language.all" xml:space="preserve">
+				<source>All languages</source>
+			</trans-unit>
+			<trans-unit id="filter.language.default" xml:space="preserve">
+				<source>Default language</source>
+			</trans-unit>
+			<trans-unit id="filter.categories" xml:space="preserve">
+				<source>Categories</source>
+			</trans-unit>
+			<trans-unit id="filter.categoryConjunction" xml:space="preserve">
+				<source>Category combination</source>
+			</trans-unit>
+			<trans-unit id="filter.categoryConjunction.or" xml:space="preserve">
+				<source>One of the categories</source>
+			</trans-unit>
+			<trans-unit id="filter.categoryConjunction.and" xml:space="preserve">
+				<source>All categories</source>
+			</trans-unit>
+			<trans-unit id="filter.categoryConjunction.notor" xml:space="preserve">
+				<source>None of the categories</source>
+			</trans-unit>
+			<trans-unit id="filter.categoryConjunction.notand" xml:space="preserve">
+				<source>Not all categories</source>
+			</trans-unit>
+			<trans-unit id="filter.includeSubCategories" xml:space="preserve">
+				<source>Include subcategories</source>
+			</trans-unit>
+			<trans-unit id="filter.perPage" xml:space="preserve">
+				<source>Records per page</source>
+			</trans-unit>
+			<trans-unit id="pagination.first" xml:space="preserve">
+				<source>First page</source>
+			</trans-unit>
+			<trans-unit id="pagination.previous" xml:space="preserve">
+				<source>Previous page</source>
+			</trans-unit>
+			<trans-unit id="pagination.next" xml:space="preserve">
+				<source>Next page</source>
+			</trans-unit>
+			<trans-unit id="pagination.last" xml:space="preserve">
+				<source>Last page</source>
+			</trans-unit>
+			<trans-unit id="storagePages.title" xml:space="preserve">
+				<source>Storage pages</source>
+			</trans-unit>
+			<trans-unit id="storagePages.subtitle" xml:space="preserve">
+				<source>Find the pages the news, category and tag records are stored on</source>
+			</trans-unit>
+			<trans-unit id="storagePages.column.page" xml:space="preserve">
+				<source>Page</source>
+			</trans-unit>
+			<trans-unit id="storagePages.column.news" xml:space="preserve">
+				<source>News</source>
+			</trans-unit>
+			<trans-unit id="storagePages.column.categories" xml:space="preserve">
+				<source>Categories</source>
+			</trans-unit>
+			<trans-unit id="storagePages.column.tags" xml:space="preserve">
+				<source>Tags</source>
+			</trans-unit>
+			<trans-unit id="storagePages.column.actions" xml:space="preserve">
+				<source>Actions</source>
+			</trans-unit>
+			<trans-unit id="storagePages.empty" xml:space="preserve">
+				<source>No news, category or tag records found on the pages you have access to</source>
+			</trans-unit>
+			<trans-unit id="storagePages.hidden" xml:space="preserve">
+				<source>Hidden page</source>
+			</trans-unit>
+			<trans-unit id="recordType.news" xml:space="preserve">
+				<source>news record</source>
+			</trans-unit>
+			<trans-unit id="recordType.category" xml:space="preserve">
+				<source>category</source>
+			</trans-unit>
+			<trans-unit id="recordType.tag" xml:space="preserve">
+				<source>tag</source>
+			</trans-unit>
+			<trans-unit id="delete.title" xml:space="preserve">
+				<source>Delete news record</source>
+			</trans-unit>
+			<trans-unit id="delete.question" xml:space="preserve">
+				<source>Do you really want to delete the news record "%1$s" (uid %2$s)?</source>
+			</trans-unit>
+			<trans-unit id="delete.location" xml:space="preserve">
+				<source>Storage page: %1$s</source>
+			</trans-unit>
+			<trans-unit id="delete.hint" xml:space="preserve">
+				<source>The record is only moved to the recycle bin, if the recycle bin extension is installed. Otherwise it is removed from the database.</source>
+			</trans-unit>
+			<trans-unit id="delete.submit" xml:space="preserve">
+				<source>Delete record</source>
+			</trans-unit>
+			<trans-unit id="delete.cancel" xml:space="preserve">
+				<source>Cancel</source>
+			</trans-unit>
+			<trans-unit id="delete.success" xml:space="preserve">
+				<source>News record %1$s has been deleted</source>
+			</trans-unit>
+			<trans-unit id="error.title" xml:space="preserve">
+				<source>NewsBunny</source>
+			</trans-unit>
+			<trans-unit id="error.noPermission" xml:space="preserve">
+				<source>You are not allowed to create a %1$s</source>
+			</trans-unit>
+			<trans-unit id="error.noCreatePermissionOnPage" xml:space="preserve">
+				<source>You are not allowed to create records on the page "%1$s"</source>
+			</trans-unit>
+			<trans-unit id="error.noEditPermissionOnPage" xml:space="preserve">
+				<source>You are not allowed to edit records on the page "%1$s"</source>
+			</trans-unit>
+			<trans-unit id="error.recordNotFound" xml:space="preserve">
+				<source>The news record with uid %1$s does not exist</source>
+			</trans-unit>
+			<trans-unit id="dashboard.news" xml:space="preserve">
+				<source>News records</source>
+			</trans-unit>
+			<trans-unit id="dashboard.categories" xml:space="preserve">
+				<source>Categories</source>
+			</trans-unit>
+			<trans-unit id="dashboard.tags" xml:space="preserve">
+				<source>Tags</source>
+			</trans-unit>
+			<trans-unit id="pageTree.title" xml:space="preserve">
+				<source>Pages</source>
+			</trans-unit>
+			<trans-unit id="pageTree.allPages" xml:space="preserve">
+				<source>All pages</source>
+			</trans-unit>
+			<trans-unit id="pageTree.selected" xml:space="preserve">
+				<source>Records of page %1$s</source>
+			</trans-unit>
+			<trans-unit id="filter.title" xml:space="preserve">
+				<source>Filter</source>
+			</trans-unit>
+			<trans-unit id="filter.recursive" xml:space="preserve">
+				<source>Include subpages</source>
+			</trans-unit>
+			<trans-unit id="list.action.show" xml:space="preserve">
+				<source>Show record</source>
+			</trans-unit>
+			<trans-unit id="list.action.hide" xml:space="preserve">
+				<source>Hide record</source>
+			</trans-unit>
+			<trans-unit id="list.action.moveUp" xml:space="preserve">
+				<source>Move record up</source>
+			</trans-unit>
+			<trans-unit id="list.action.moveDown" xml:space="preserve">
+				<source>Move record down</source>
+			</trans-unit>
+			<trans-unit id="list.badge.visible" xml:space="preserve">
+				<source>Visible</source>
+			</trans-unit>
+			<trans-unit id="list.noTags" xml:space="preserve">
+				<source>No tags</source>
+			</trans-unit>
+			<trans-unit id="list.column.author" xml:space="preserve">
+				<source>Author</source>
+			</trans-unit>
+			<trans-unit id="list.column.path_segment" xml:space="preserve">
+				<source>Slug</source>
+			</trans-unit>
+			<trans-unit id="list.column.language" xml:space="preserve">
+				<source>Language</source>
+			</trans-unit>
+			<trans-unit id="list.column.page" xml:space="preserve">
+				<source>Storage page</source>
+			</trans-unit>
+			<trans-unit id="list.column.status" xml:space="preserve">
+				<source>Status</source>
+			</trans-unit>
+			<trans-unit id="list.column.categories" xml:space="preserve">
+				<source>Categories</source>
+			</trans-unit>
+			<trans-unit id="list.column.tags" xml:space="preserve">
+				<source>Tags</source>
+			</trans-unit>
+			<trans-unit id="list.column.archive" xml:space="preserve">
+				<source>Archive date</source>
+			</trans-unit>
+			<trans-unit id="list.column.crdate" xml:space="preserve">
+				<source>Created</source>
+			</trans-unit>
+			<trans-unit id="list.column.tstamp" xml:space="preserve">
+				<source>Changed</source>
+			</trans-unit>
+			<trans-unit id="list.column.uid" xml:space="preserve">
+				<source>UID</source>
+			</trans-unit>
+			<trans-unit id="list.column.datetime" xml:space="preserve">
+				<source>Date</source>
+			</trans-unit>
+			<trans-unit id="list.column.teaser" xml:space="preserve">
+				<source>Teaser</source>
+			</trans-unit>
+			<trans-unit id="list.column.title" xml:space="preserve">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="create.news" xml:space="preserve">
+				<source>Create news record</source>
+			</trans-unit>
+			<trans-unit id="create.category" xml:space="preserve">
+				<source>Create category</source>
+			</trans-unit>
+			<trans-unit id="create.tag" xml:space="preserve">
+				<source>Create tag</source>
+			</trans-unit>
+			<trans-unit id="toggle.hidden" xml:space="preserve">
+				<source>hidden</source>
+			</trans-unit>
+			<trans-unit id="toggle.visible" xml:space="preserve">
+				<source>visible</source>
+			</trans-unit>
+			<trans-unit id="toggle.success" xml:space="preserve">
+				<source>Record is %1$s now</source>
+			</trans-unit>
+			<trans-unit id="move.up" xml:space="preserve">
+				<source>up</source>
+			</trans-unit>
+			<trans-unit id="move.down" xml:space="preserve">
+				<source>down</source>
+			</trans-unit>
+			<trans-unit id="move.success" xml:space="preserve">
+				<source>Record has been moved %1$s</source>
+			</trans-unit>
+			<trans-unit id="error.manualSortingDisabled" xml:space="preserve">
+				<source>The records cannot be sorted because the extension setting 'manualSorting' of EXT:news is not enabled</source>
+			</trans-unit>
+			<trans-unit id="list.badge.defaultLanguage" xml:space="preserve">
+				<source>Default language</source>
+			</trans-unit>
+			<trans-unit id="list.noTeaser" xml:space="preserve">
+				<source>No teaser</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

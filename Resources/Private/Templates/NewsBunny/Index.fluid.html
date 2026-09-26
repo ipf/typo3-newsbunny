@@ -1,0 +1,33 @@
+<html xmlns:f="http://typo3.org/ns/TYPO3/CMS/Fluid/ViewHelpers"
+      xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
+      data-namespace-typo3-fluid="true">
+
+<f:layout name="Module"/>
+
+<f:section name="Content">
+    <h1>
+        <f:translate key="list.title"/>
+        <span class="badge badge-info">{total}</span>
+    </h1>
+    <p class="text-body-secondary mb-4">
+        <f:translate key="list.total" arguments="{0: total, 1: totalCount}"/>
+    </p>
+
+    <f:if condition="{pageTree.show}">
+        <f:then>
+            <div class="row">
+                <div class="col-md-3 col-lg-2">
+                    <f:render partial="NewsBunny/PageTree" arguments="{_all}"/>
+                </div>
+                <div class="col-md-9 col-lg-10">
+                    <f:render partial="NewsBunny/RecordList" arguments="{_all}"/>
+                </div>
+            </div>
+        </f:then>
+        <f:else>
+            <f:render partial="NewsBunny/RecordList" arguments="{_all}"/>
+        </f:else>
+    </f:if>
+</f:section>
+
+</html>
