@@ -13,13 +13,18 @@ concurrency:
 
 jobs:
   unit:
-    name: Unit tests (PHP ${{ matrix.php }})
+    name: Unit tests / ${{ matrix.label }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        # the PHP versions supported by TYPO3 14.3 and EXT:news 14.1
-        php: ['8.2', '8.3', '8.4']
+        include:
+          # the supported TYPO3 lines, see composer.json
+          - { php: '8.2', typo3: '^13.4', label: 'TYPO3 13, PHP 8.2' }
+          - { php: '8.4', typo3: '^13.4', label: 'TYPO3 13, PHP 8.4' }
+          - { php: '8.2', typo3: '^14.3', label: 'TYPO3 14, PHP 8.2' }
+          - { php: '8.3', typo3: '^14.3', label: 'TYPO3 14, PHP 8.3' }
+          - { php: '8.4', typo3: '^14.3', label: 'TYPO3 14, PHP 8.4' }
     steps:
       - uses: actions/checkout@v4
 
@@ -27,7 +32,6 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
-          # pdo_sqlite is the database of the functional test instance
           extensions: dom, libxml, mbstring, pdo_sqlite
           coverage: none
           tools: composer:v2
@@ -36,9 +40,7 @@ jobs:
         run: composer validate --no-check-publish
 
       - name: Install dependencies
-        uses: ramsey/composer-install@v3
-        with:
-          composer-options: --no-interaction --no-progress
+        run: composer update --no-interaction --no-progress --with "typo3/cms-core:${{ matrix.typo3 }}"
 
       - name: Validate test fixtures
         run: composer test:fixtures
@@ -47,13 +49,16 @@ jobs:
         run: composer test:unit
 
   functional:
-    name: Functional tests (PHP ${{ matrix.php }})
+    name: Functional tests / ${{ matrix.label }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        # the PHP versions supported by TYPO3 14.3 and EXT:news 14.1
-        php: ['8.2', '8.3', '8.4']
+        include:
+          # one leg per supported TYPO3 and EXT:news combination
+          - { php: '8.4', typo3: '^13.4', news: '^13.0', label: 'TYPO3 13 + news 13' }
+          - { php: '8.4', typo3: '^13.4', news: '^14.1', label: 'TYPO3 13 + news 14' }
+          - { php: '8.4', typo3: '^14.3', news: '^14.1', label: 'TYPO3 14 + news 14' }
     steps:
       - uses: actions/checkout@v4
 
@@ -67,9 +72,10 @@ jobs:
           tools: composer:v2
 
       - name: Install dependencies
-        uses: ramsey/composer-install@v3
-        with:
-          composer-options: --no-interaction --no-progress
+        run: >-
+          composer update --no-interaction --no-progress
+          --with "typo3/cms-core:${{ matrix.typo3 }}"
+          --with "georgringer/news:${{ matrix.news }}"
 
       - name: Run functional tests
         run: composer test:functional

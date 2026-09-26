@@ -12,8 +12,8 @@ $EM_CONF['news_bunny'] = [
     'version' => '1.0.0',
     'constraints' => [
         'depends' => [
-            'typo3' => '14.3.0-14.99.99',
-            'news' => '14.1.0-14.99.99',
+            'typo3' => '13.4.0-14.99.99',
+            'news' => '13.0.0-14.99.99',
         ],
         'conflicts' => [
             'news_administration' => '*',

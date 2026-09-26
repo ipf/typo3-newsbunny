@@ -13,7 +13,7 @@ Install the extension with Composer:
 
     composer require ipf/news_bunny
 
-The extension requires TYPO3 CMS 14.3 or later and EXT:news 14.1 or later, both are
+The extension requires TYPO3 CMS 13.4 or 14.3 and EXT:news 13.0 or 14.1, both are
 pulled in as dependencies if they are not installed yet.
 
 In a project which uses a local path repository, add the directory of the extension

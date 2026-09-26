@@ -1,6 +1,6 @@
 # NewsBunny
 
-[![TYPO3](https://img.shields.io/badge/TYPO3-14.3-ff8700.svg)](https://typo3.org)
+[![TYPO3](https://img.shields.io/badge/TYPO3-13.4%20%7C%2014.3-ff8700.svg)](https://typo3.org)
 [![Tests](https://github.com/ipf/typo3-newsbunny/actions/workflows/tests.yml/badge.svg)](https://github.com/ipf/typo3-newsbunny/actions/workflows/tests.yml)
 [![License](https://img.shields.io/badge/license-GPL--2.0--or--later-blue.svg)](LICENSE)
 
@@ -20,8 +20,11 @@ editors a dedicated working area for the news records of a site.
 
 ## Requirements
 
-- TYPO3 CMS 14.3 or later
-- EXT:news 14.1 or later
+- TYPO3 CMS 13.4 or 14.3
+- EXT:news 13.0 or 14.1
+
+Both TYPO3 lines and both EXT:news lines are covered by the test suite, see
+`Tests` below.
 
 ## Installation
 

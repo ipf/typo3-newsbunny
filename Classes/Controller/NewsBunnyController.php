@@ -704,9 +704,23 @@ final class NewsBunnyController extends ActionController
 
     private function prepareModuleTemplate(ModuleTemplate $moduleTemplate): void
     {
-        $moduleTemplate->getDocHeaderComponent()->setShortcutContext(
-            self::MODULE_IDENTIFIER,
-            $this->getLabel('module.title', [], 'locallang_mod.xlf')
+        $docHeader = $moduleTemplate->getDocHeaderComponent();
+        $title = $this->getLabel('module.title', [], 'locallang_mod.xlf');
+
+        if (method_exists($docHeader, 'setShortcutContext')) {
+            // TYPO3 v14 and later render the shortcut button as part of the doc header
+            $docHeader->setShortcutContext(self::MODULE_IDENTIFIER, $title);
+            return;
+        }
+
+        // TYPO3 v13 has no automatic shortcut button, so it is added explicitly
+        $buttonBar = $docHeader->getButtonBar();
+        $buttonBar->addButton(
+            $buttonBar->makeShortcutButton()
+                ->setRouteIdentifier(self::MODULE_IDENTIFIER)
+                ->setDisplayName($title),
+            ButtonBar::BUTTON_POSITION_RIGHT,
+            5
         );
     }
 

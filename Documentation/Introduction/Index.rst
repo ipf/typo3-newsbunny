@@ -88,5 +88,5 @@ list. Deleted records are always excluded.
 Requirements
 ============
 
-- TYPO3 CMS 14.3 or later
-- EXT:news 14.1 or later
+- TYPO3 CMS 13.4 or 14.3
+- EXT:news 13.0 or 14.1
