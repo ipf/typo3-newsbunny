@@ -9,6 +9,7 @@ use Ipf\NewsBunny\Domain\Model\NewsConstraint;
 use Ipf\NewsBunny\Repository\NewsRepository;
 use Ipf\NewsBunny\Repository\PageRepository;
 use Ipf\NewsBunny\Repository\SortingRepository;
+use Ipf\NewsBunny\Service\DataHandlerFactory;
 use Ipf\NewsBunny\Service\PageTreeBuilder;
 use Ipf\NewsBunny\Service\SettingsProvider;
 use Psr\Http\Message\ResponseInterface;
@@ -30,7 +31,6 @@ use TYPO3\CMS\Core\Localization\LanguageServiceFactory;
 use TYPO3\CMS\Core\Schema\Capability\TcaSchemaCapability;
 use TYPO3\CMS\Core\Schema\TcaSchemaFactory;
 use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 
 /**
@@ -69,6 +69,8 @@ final class NewsBunnyController extends ActionController
         private readonly UriBuilder $moduleUriBuilder,
         private readonly IconFactory $iconFactory,
         private readonly LanguageServiceFactory $languageServiceFactory,
+        private readonly DataHandlerFactory $dataHandlerFactory,
+        private readonly Context $context,
     ) {}
 
     public function initializeIndexAction(): void
@@ -281,7 +283,7 @@ final class NewsBunnyController extends ActionController
             return $this->redirect('index');
         }
 
-        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
+        $dataHandler = $this->dataHandlerFactory->create();
         $dataHandler->start([], [NewsRepository::TABLE => [$uid => ['delete' => '1']]]);
         $dataHandler->process_cmdmap();
 
@@ -307,7 +309,7 @@ final class NewsBunnyController extends ActionController
         }
 
         $hidden = (int)$record['hidden'] === 1 ? 0 : 1;
-        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
+        $dataHandler = $this->dataHandlerFactory->create();
         $dataHandler->start([NewsRepository::TABLE => [$uid => ['hidden' => $hidden]]], []);
         $dataHandler->process_datamap();
 
@@ -357,7 +359,7 @@ final class NewsBunnyController extends ActionController
         $target = $direction === 'up' ? ($neighbours['before'][1] ?? 0) : ($neighbours['after'][1] ?? 0);
         $destination = $target > 0 ? -$target : (int)$record['pid'];
 
-        $dataHandler = GeneralUtility::makeInstance(DataHandler::class);
+        $dataHandler = $this->dataHandlerFactory->create();
         $dataHandler->start([], [NewsRepository::TABLE => [$uid => ['move' => $destination]]]);
         $dataHandler->process_cmdmap();
 
@@ -770,7 +772,7 @@ final class NewsBunnyController extends ActionController
      */
     private function prepareRecord(array $row, ModuleContext $context): array
     {
-        $now = (int)GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('date', 'timestamp');
+        $now = (int)$this->context->getPropertyFromAspect('date', 'timestamp');
         $page = $context->pages[(int)$row['pid']] ?? null;
         $editable = $page !== null && $page['editable'];
 

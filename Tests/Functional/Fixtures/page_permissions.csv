@@ -1,0 +1,21 @@
+"be_groups"
+,"uid","title","hidden","db_mountpoints","tables_modify"
+,1,"Editors",0,"","tx_news_domain_model_news"
+,2,"Restricted",0,"","tx_news_domain_model_news"
+,3,"Without table access",0,"",""
+"be_users"
+,"uid","username","password","admin","disable","deleted","usergroup","db_mountpoints","workspace_id"
+,1,"admin","",1,0,0,"","",0
+,2,"editor","",0,0,0,"1","1",0
+,3,"restricted","",0,0,0,"2","1",0
+,4,"nomodify","",0,0,0,"3","1",0
+,5,"submount","",0,0,0,"1","2",0
+"pages"
+,"uid","pid","title","hidden","deleted","sorting","perms_userid","perms_groupid","perms_user","perms_group","perms_everybody","TSconfig"
+,1,0,"Root",0,0,256,2,1,31,31,1,""
+,2,1,"News",0,0,256,2,1,31,31,1,""
+,3,2,"Company",0,0,256,4,1,31,31,1,""
+,4,2,"Read only",0,0,256,0,0,0,0,1,""
+,5,1,"Invisible for everyone",1,0,256,0,0,0,0,0,""
+,6,2,"Private to restricted group",0,0,256,0,2,0,31,0,""
+,7,1,"Deleted page",0,1,256,2,1,31,31,1,""

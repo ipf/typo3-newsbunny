@@ -10,7 +10,6 @@ use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Database access for the NewsBunny record list.
@@ -47,6 +46,8 @@ final class NewsRepository
 
     public function __construct(
         private readonly ConnectionPool $connectionPool,
+        private readonly DeletedRestriction $deletedRestriction,
+        private readonly Context $context,
     ) {}
 
     /**
@@ -125,7 +126,7 @@ final class NewsRepository
     private function countByTable(string $table, ?array $pageIds): array
     {
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable($table);
-        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+        $queryBuilder->getRestrictions()->removeAll()->add($this->deletedRestriction);
         $queryBuilder
             ->select('pid')
             ->addSelectLiteral('COUNT(' . $queryBuilder->quoteIdentifier('uid') . ') AS ' . $queryBuilder->quoteIdentifier('count'))
@@ -175,7 +176,7 @@ final class NewsRepository
             $rootIds = array_values($allowed);
         }
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable(self::CATEGORY_TABLE);
-        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+        $queryBuilder->getRestrictions()->removeAll()->add($this->deletedRestriction);
         $queryBuilder
             ->select('uid', 'title')
             ->from(self::CATEGORY_TABLE)
@@ -212,7 +213,7 @@ final class NewsRepository
             return [];
         }
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable(self::CATEGORY_MM_TABLE);
-        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+        $queryBuilder->getRestrictions()->removeAll()->add($this->deletedRestriction);
         $queryBuilder
             ->select('mm.uid_local', 'mm.uid_foreign', 'category.title')
             ->from(self::CATEGORY_MM_TABLE, 'mm')
@@ -248,7 +249,7 @@ final class NewsRepository
             return [];
         }
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable(self::TAG_MM_TABLE);
-        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+        $queryBuilder->getRestrictions()->removeAll()->add($this->deletedRestriction);
         $queryBuilder
             ->select('mm.uid_local', 'mm.uid_foreign', 'tag.title')
             ->from(self::TAG_MM_TABLE, 'mm')
@@ -277,7 +278,7 @@ final class NewsRepository
     public function findTags(): array
     {
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable(self::TAG_TABLE);
-        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+        $queryBuilder->getRestrictions()->removeAll()->add($this->deletedRestriction);
         $queryBuilder
             ->select('uid', 'title')
             ->from(self::TAG_TABLE)
@@ -298,7 +299,7 @@ final class NewsRepository
     {
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable(self::TABLE);
         // Backend listing: hidden and time restricted records have to be visible, deleted ones must not
-        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+        $queryBuilder->getRestrictions()->removeAll()->add($this->deletedRestriction);
         $queryBuilder->from(self::TABLE);
 
         $constraints = $this->buildConstraints($queryBuilder, $constraint, $pageIds);
@@ -484,7 +485,7 @@ final class NewsRepository
     private function getCategoryTree(): array
     {
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable(self::CATEGORY_TABLE);
-        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+        $queryBuilder->getRestrictions()->removeAll()->add($this->deletedRestriction);
         $queryBuilder
             ->select('uid', 'parent', 'title')
             ->from(self::CATEGORY_TABLE);
@@ -530,6 +531,6 @@ final class NewsRepository
 
     private function getCurrentTimestamp(): int
     {
-        return (int)GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('date', 'timestamp');
+        return (int)$this->context->getPropertyFromAspect('date', 'timestamp');
     }
 }

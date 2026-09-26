@@ -1,0 +1,25 @@
+"pages"
+,"uid","pid","title","hidden","deleted","sorting","perms_userid","perms_groupid","perms_user","perms_group","perms_everybody","TSconfig"
+,1,0,"Root",0,0,256,0,0,0,0,1,""
+,2,1,"Plain page",0,0,256,0,0,0,0,1,""
+,3,1,"Configured page",0,0,256,0,0,0,0,1,"tx_newsbunny.module.columns = teaser, author
+tx_newsbunny.module.defaultPage = 3
+tx_newsbunny.module.allowedPage = 3
+tx_newsbunny.module.hidePageTree = 1
+tx_newsbunny.module.alwaysShowFilter = 0
+tx_newsbunny.module.localizationView = 0
+tx_newsbunny.module.controlPanels = 0
+tx_newsbunny.module.allowedCategoryRootIds = 3,4
+tx_newsbunny.module.preselect.perPage = 50
+tx_newsbunny.module.preselect.sortingField = title
+tx_newsbunny.module.preselect.sortingDirection = asc
+tx_newsbunny.module.preselect.recursive = 1
+tx_newsbunny.module.preselect.language = 1
+tx_newsbunny.module.filters.searchWord = 0
+tx_newsbunny.module.filters.archived = 0
+tx_newsbunny.module.defaultPid.tx_news_domain_model_news = 2
+tx_newsbunny.module.defaultPid.sys_category = 3"
+,4,1,"Resets defaults",0,0,256,0,0,0,0,1,"tx_newsbunny.module.columns =
+tx_newsbunny.module.hidePageTree =
+tx_newsbunny.module.defaultPage ="
+,5,1,"Inherits from parent",0,0,256,0,0,0,0,1,""

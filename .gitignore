@@ -1,4 +1,12 @@
 /Documentation/_build/
 /.idea/
 /.php-cs-fixer.cache
+/Build/phpunit/.phpunit.cache
 .DS_Store
+
+# Artifacts of a local test run: "composer install" installs the extension as a
+# standalone project including TYPO3, and the functional tests create an instance.
+/composer.lock
+/public/
+/var/
+/vendor/

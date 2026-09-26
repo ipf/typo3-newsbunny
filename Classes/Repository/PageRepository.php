@@ -8,7 +8,6 @@ use TYPO3\CMS\Core\Authentication\BackendUserAuthentication;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Type\Bitmask\Permission;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Provides the pages (storage folders) of the news records the backend user is allowed to see.
@@ -20,6 +19,7 @@ final class PageRepository
 {
     public function __construct(
         private readonly ConnectionPool $connectionPool,
+        private readonly DeletedRestriction $deletedRestriction,
     ) {}
 
     /**
@@ -36,7 +36,7 @@ final class PageRepository
     public function findAccessible(BackendUserAuthentication $backendUser, string $table): array
     {
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable('pages');
-        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+        $queryBuilder->getRestrictions()->removeAll()->add($this->deletedRestriction);
         $queryBuilder
             ->select(
                 'uid',

@@ -1,6 +1,7 @@
 # NewsBunny
 
 [![TYPO3](https://img.shields.io/badge/TYPO3-14.3-ff8700.svg)](https://typo3.org)
+[![Tests](https://github.com/ipf/typo3-newsbunny/actions/workflows/tests.yml/badge.svg)](https://github.com/ipf/typo3-newsbunny/actions/workflows/tests.yml)
 [![License](https://img.shields.io/badge/license-GPL--2.0--or--later-blue.svg)](LICENSE)
 
 Backend module for [EXT:news](https://extensions.typo3.org/extension/news) that gives
@@ -50,6 +51,39 @@ installation, for example:
 pip install -r requirements.txt
 sphinx-build -b html Documentation Documentation/_build/html
 ```
+
+## Tests
+
+The test suite uses [TYPO3 testing-framework](https://github.com/TYPO3/testing-framework).
+Unit tests run without a database, functional tests boot a throwaway TYPO3 instance
+with an SQLite database.
+
+```bash
+composer install
+composer test:fixtures      # checks the structure of the CSV fixtures
+composer test:unit          # no database
+composer test:functional    # creates a temporary SQLite instance
+composer test               # all of the above
+```
+
+`composer install` treats this repository as a standalone project, so TYPO3 itself
+is installed into `vendor/`. The generated `public/`, `var/`, `vendor/` and
+`composer.lock` are ignored by git.
+
+To run a single test:
+
+```bash
+vendor/bin/phpunit -c Build/phpunit/UnitTests.xml --filter NewsConstraintTest
+vendor/bin/phpunit -c Build/phpunit/FunctionalTests.xml --filter NewsRepositoryTest
+```
+
+The functional tests load their data from the CSV files in `Tests/Functional/Fixtures`.
+`composer test:fixtures` verifies their structure and the `FixtureSchemaTest` verifies
+that every column they use exists, which catches a broken fixture long before the
+importer fails with an unrelated error.
+
+Both suites also run on every push and pull request via GitHub Actions, see
+`.github/workflows/tests.yml`.
 
 ## License
 

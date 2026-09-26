@@ -1,0 +1,50 @@
+"pages"
+,"uid","pid","title","hidden","deleted","sorting","perms_userid","perms_groupid","perms_user","perms_group","perms_everybody"
+,1,0,"Root",0,0,256,1,1,31,31,1
+,2,1,"News",0,0,256,1,1,31,31,1
+,3,2,"Company",0,0,256,1,1,31,31,1
+,4,2,"Blog",0,0,256,1,1,31,31,1
+,5,1,"Archived folder",0,0,256,1,1,31,31,1
+"sys_category"
+,"uid","pid","title","parent","hidden","deleted","sorting","sys_language_uid"
+,1,2,"Politics",0,0,0,256,0
+,2,2,"Germany",1,0,0,256,0
+,3,2,"Sports",0,0,0,256,0
+,4,2,"Berlin",2,0,0,256,0
+,5,2,"Unused category",0,0,0,256,0
+,6,2,"Translated category",0,0,0,256,1
+,7,2,"Deleted category",0,0,1,256,0
+"tx_news_domain_model_tag"
+,"uid","pid","title","deleted","hidden"
+,1,2,"Alpha",0,0
+,2,2,"Beta",0,0
+,3,2,"Deleted tag",1,0
+"tx_news_domain_model_news"
+,"uid","pid","title","teaser","bodytext","datetime","archive","istopnews","hidden","deleted","author","path_segment","type","sys_language_uid","l10n_parent","starttime","endtime","sorting","crdate","tstamp"
+,1,2,"Breaking news","A  <b>bold</b> teaser","Body of breaking news",1700000100,0,1,0,0,"Alice","breaking-news","0",0,0,0,0,256,1600000000,1700000000
+,2,2,"Archived article","Teaser two","Body two",1700000200,1500000000,0,0,0,"Bob","archived-article","0",0,0,0,0,512,1600000001,1700000001
+,3,3,"Company update","Teaser three","Body three",1700000300,0,0,1,0,"Alice","company-update","0",0,0,0,0,256,1600000002,1700000002
+,4,3,"Future archive","Teaser four","Body four",1700000400,4000000000,0,0,0,"Bob","future-archive","0",0,0,0,0,512,1600000003,1700000003
+,5,4,"Localized title","Teaser five","Body five",1700000500,0,0,0,0,"Alice","localized-title","0",1,1,0,0,256,1600000004,1700000004
+,6,2,"Internal news","Teaser six","Body six",1700000600,0,1,1,0,"Carol","internal-news","1",0,0,0,0,768,1600000005,1700000005
+,7,2,"External news","Teaser seven","Body seven",1700000700,0,0,0,0,"Carol","external-news","2",0,0,0,0,1024,1600000006,1700000006
+,8,2,"Time restricted","Teaser eight","Body eight",1730000000,0,0,0,0,"Dave","time-restricted","0",0,0,1000,2000,1280,1600000007,1700000007
+,9,2,"Needle in haystack","Teaser nine","Body nine",1700000900,0,0,0,0,"Dave","needle-haystack","0",0,0,0,0,256,1600000008,1700000008
+,10,5,"Only on archive page","Teaser ten","Body ten",1700001000,0,0,0,0,"Erin","only-archive-page","0",0,0,0,0,256,1600000009,1700000009
+,11,2,"Soft deleted","Teaser eleven","Body eleven",1700001100,0,0,0,1,"Erin","soft-deleted","0",0,0,0,0,256,1600000010,1700000010
+"sys_category_record_mm"
+,"uid_local","uid_foreign","tablenames","fieldname","sorting","sorting_foreign"
+,1,1,"tx_news_domain_model_news","categories",256,0
+,3,1,"tx_news_domain_model_news","categories",512,0
+,1,2,"tx_news_domain_model_news","categories",256,0
+,2,3,"tx_news_domain_model_news","categories",256,0
+,4,4,"tx_news_domain_model_news","categories",256,0
+,3,4,"tx_news_domain_model_news","categories",512,0
+,2,6,"tx_news_domain_model_news","categories",256,0
+,1,2,"tx_news_domain_model_news","keywords",256,0
+"tx_news_domain_model_news_tag_mm"
+,"uid_local","uid_foreign","sorting","sorting_foreign"
+,1,1,256,0
+,1,2,512,0
+,2,1,256,0
+,9,3,256,0

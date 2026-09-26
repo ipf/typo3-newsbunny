@@ -8,7 +8,6 @@ use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Reads the records which are needed to move a record up or down within its storage page.
@@ -17,6 +16,7 @@ final class SortingRepository
 {
     public function __construct(
         private readonly ConnectionPool $connectionPool,
+        private readonly DeletedRestriction $deletedRestriction,
     ) {}
 
     /**
@@ -51,7 +51,7 @@ final class SortingRepository
         string $order
     ): array {
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable($table);
-        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+        $queryBuilder->getRestrictions()->removeAll()->add($this->deletedRestriction);
         $queryBuilder->select('uid')->from($table);
         $queryBuilder->where(
             $queryBuilder->expr()->eq('pid', $queryBuilder->createNamedParameter($pid, Connection::PARAM_INT)),
@@ -73,7 +73,7 @@ final class SortingRepository
     private function findSorting(string $table, int $uid, string $sortingField): ?int
     {
         $queryBuilder = $this->connectionPool->getQueryBuilderForTable($table);
-        $queryBuilder->getRestrictions()->removeAll()->add(GeneralUtility::makeInstance(DeletedRestriction::class));
+        $queryBuilder->getRestrictions()->removeAll()->add($this->deletedRestriction);
         $sorting = $queryBuilder
             ->select($sortingField)
             ->from($table)

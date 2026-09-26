@@ -1,0 +1,12 @@
+"tx_news_domain_model_news"
+,"uid","pid","title","sorting","deleted","datetime","hidden"
+,1,10,"First",10,0,1700000100,0
+,2,10,"Second",20,0,1700000200,0
+,3,10,"Third",30,0,1700000300,0
+,4,10,"Fourth",40,0,1700000400,0
+,5,10,"Top of the page",5,0,1700000500,0
+,6,10,"Bottom of the page",50,0,1700000600,0
+,7,10,"Only record",7,0,1700000700,0
+,8,10,"Deleted neighbour",25,1,1700000800,0
+,9,20,"Other page",15,0,1700000900,0
+,10,10,"Zero sorting",0,0,1700001000,0
