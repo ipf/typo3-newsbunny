@@ -14,6 +14,7 @@
                             <core:icon identifier="apps-pagetree-page-default"/>
                             {branch.title}
                         </a>
+                        <f:render partial="NewsBunny/PageTreeCounts" arguments="{branch: branch}"/>
                         <f:if condition="{branch.hidden}">
                             <span class="badge badge-warning"><f:translate key="storagePages.hidden"/></span>
                         </f:if>
@@ -27,6 +28,7 @@
                    style="padding-left: {branch.level}px">
                     <core:icon identifier="apps-pagetree-page-default"/>
                     {branch.title}
+                    <f:render partial="NewsBunny/PageTreeCounts" arguments="{branch: branch}"/>
                     <f:if condition="{branch.hidden}">
                         <span class="badge badge-warning"><f:translate key="storagePages.hidden"/></span>
                     </f:if>

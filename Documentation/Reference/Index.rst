@@ -110,11 +110,11 @@ Files
    * - :file:`Classes/Repository/NewsRepository.php`
      - The queries for the records, categories and tags
    * - :file:`Classes/Repository/PageRepository.php`
-     - The pages and the permissions of the editor
+     - The pages, their language variants and the permissions of the editor
    * - :file:`Classes/Repository/SortingRepository.php`
      - The neighbours of a record for the sort buttons
    * - :file:`Classes/Service/PageTreeBuilder.php`
-     - The page tree and the pages of a page subtree
+     - The page tree with the number of records, and the pages of a page subtree
    * - :file:`Classes/Service/SettingsProvider.php`
      - The settings, merged from the defaults and the page TSconfig
    * - :file:`Resources/Private/Language/locallang.xlf`

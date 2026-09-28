@@ -331,13 +331,6 @@ final class NewsRepositoryTest extends AbstractFunctionalTestCase
         self::assertSame(0, $this->subject->countByConstraint($this->constraint(), []));
     }
 
-    public function testCountAllIgnoresFiltersButRespectsThePageRestriction(): void
-    {
-        self::assertSame(10, $this->subject->countAll(null));
-        self::assertSame(1, $this->subject->countAll([4]));
-        self::assertSame(0, $this->subject->countAll([]));
-    }
-
     public function testCountByTableGroupsByStoragePage(): void
     {
         self::assertSame(

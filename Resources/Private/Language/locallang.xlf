@@ -270,6 +270,15 @@
 			<trans-unit id="pageTree.selected" xml:space="preserve">
 				<source>Records of page %1$s</source>
 			</trans-unit>
+			<trans-unit id="pageTree.count.own" xml:space="preserve">
+				<source>{count, plural, =1 {1 news record} other {# news records}}</source>
+			</trans-unit>
+			<trans-unit id="pageTree.count.none" xml:space="preserve">
+				<source>No news records</source>
+			</trans-unit>
+			<trans-unit id="pageTree.count.total" xml:space="preserve">
+				<source>{count, plural, =1 {1 news record on this page and its subpages} other {# news records on this page and its subpages}}</source>
+			</trans-unit>
 			<trans-unit id="filter.title" xml:space="preserve">
 				<source>Filter</source>
 			</trans-unit>

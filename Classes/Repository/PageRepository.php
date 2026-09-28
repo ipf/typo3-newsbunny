@@ -23,12 +23,18 @@ final class PageRepository
     ) {}
 
     /**
+     * A translated page is stored as a record of its own, with its own uid and the
+     * pid of the original page. "language" and "l10nParent" expose that relation, so
+     * the page tree can show a page once instead of once per language.
+     *
      * @return array<int, array{
      *     uid: int,
      *     pid: int,
      *     title: string,
      *     path: string,
      *     hidden: bool,
+     *     language: int,
+     *     l10nParent: int,
      *     editable: bool,
      *     creatable: bool
      * }>
@@ -43,7 +49,6 @@ final class PageRepository
                 'pid',
                 'title',
                 'hidden',
-                't3ver_oid',
                 'sys_language_uid',
                 'l10n_parent',
                 'perms_userid',
@@ -74,6 +79,8 @@ final class PageRepository
                 'title' => (string)$row['title'],
                 'path' => '',
                 'hidden' => (bool)$row['hidden'],
+                'language' => (int)$row['sys_language_uid'],
+                'l10nParent' => (int)$row['l10n_parent'],
                 'editable' => ($permissions & Permission::PAGE_EDIT) === Permission::PAGE_EDIT,
                 'creatable' => $mayModifyTable
                     && ($permissions & (Permission::PAGE_EDIT | Permission::CONTENT_EDIT)) === (Permission::PAGE_EDIT | Permission::CONTENT_EDIT),
@@ -94,23 +101,6 @@ final class PageRepository
     public function resolveRestriction(array $pages, BackendUserAuthentication $backendUser): ?array
     {
         return $backendUser->isAdmin() ? null : array_keys($pages);
-    }
-
-    /**
-     * The pages as simple list of options for the storage page filter.
-     *
-     * @param array<int, array<string, mixed>> $pages
-     * @return array<int, string>
-     */
-    public function buildOptions(array $pages): array
-    {
-        $options = [];
-        foreach ($pages as $page) {
-            $options[$page['uid']] = $page['path'] !== '' ? $page['path'] : $page['title'];
-        }
-        asort($options, SORT_NATURAL | SORT_FLAG_CASE);
-
-        return $options;
     }
 
     /**

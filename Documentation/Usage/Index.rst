@@ -15,6 +15,19 @@ page limits the record list to the records of that page, the entry
 include the records which are stored on the children of the selected page. Hidden
 pages are marked with a badge.
 
+Every page shows how many news records are stored on it, so the editor sees where the
+records are without opening every page. A page with records of its own shows that
+number, followed by the number of the page and all its subpages if the two differ. A
+page without records of its own shows the number of its subpages, a page without any
+record at all is marked with a zero. The numbers are not affected by the filter, they
+always show what is stored on the page.
+
+A page that is translated is shown once, with the title of the default language. The
+records which are stored on a translated page belong to that page and are counted and
+listed with it, the filter for the language narrows the record list down to a single
+language. If the editor may only see the translation of a page and not the page in the
+default language, the translation is shown on its own.
+
 The filter
 ==========
 

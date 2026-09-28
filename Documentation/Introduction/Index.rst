@@ -22,9 +22,10 @@ Page context
 
 The module contains its own page tree. Selecting a page limits the record list to
 the records which are stored on that page, :guilabel:`Include subpages` extends the
-selection to the children of that page. The entry :guilabel:`All pages` shows every
-record the editor is allowed to see. The page tree can be switched off, in that case
-the module always works on a configured page.
+selection to the children of that page. Every page shows the number of the news
+records stored on it, so it is visible where the records are. The entry
+:guilabel:`All pages` shows every record the editor is allowed to see. The page tree
+can be switched off, in that case the module always works on a configured page.
 
 Record list
 -----------

@@ -25,7 +25,6 @@ final class ModuleContextTest extends UnitTestCase
             pageId: $pageId,
             pages: [],
             pageIds: null,
-            pageTree: [],
             settings: $settings,
             constraint: new NewsConstraint(),
         );
@@ -45,7 +44,6 @@ final class ModuleContextTest extends UnitTestCase
     {
         $pages = [1 => ['uid' => 1, 'title' => 'News']];
         $pageIds = [1];
-        $pageTree = [1 => ['uid' => 1, 'title' => 'News', 'children' => []]];
         $constraint = new NewsConstraint();
         $constraint->setSearchWord('keep');
 
@@ -53,18 +51,14 @@ final class ModuleContextTest extends UnitTestCase
             pageId: 1,
             pages: $pages,
             pageIds: $pageIds,
-            pageTree: $pageTree,
             settings: (new \ReflectionClass(SettingsProvider::class))->newInstanceWithoutConstructor(),
             constraint: $constraint,
-            createUrls: ['news' => '/module?id=1&action=createRecord'],
         );
 
         self::assertSame(1, $context->pageId);
         self::assertSame($pages, $context->pages);
         self::assertSame($pageIds, $context->pageIds);
-        self::assertSame($pageTree, $context->pageTree);
         self::assertSame($constraint, $context->constraint);
-        self::assertSame(['news' => '/module?id=1&action=createRecord'], $context->createUrls);
     }
 
     public function testPageIdsMayBeNullToMeanNoRestriction(): void
@@ -73,7 +67,6 @@ final class ModuleContextTest extends UnitTestCase
             pageId: 0,
             pages: [],
             pageIds: null,
-            pageTree: [],
             settings: (new \ReflectionClass(SettingsProvider::class))->newInstanceWithoutConstructor(),
             constraint: new NewsConstraint(),
         );

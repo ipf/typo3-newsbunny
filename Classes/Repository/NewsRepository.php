@@ -80,19 +80,8 @@ final class NewsRepository
     }
 
     /**
-     * Number of news records without any filter, used for the module header.
+     * Number of news records per storage page, without any filter.
      *
-     * @param int[]|null $pageIds
-     */
-    public function countAll(?array $pageIds): int
-    {
-        $queryBuilder = $this->createQueryBuilder(new NewsConstraint(), $pageIds);
-        $queryBuilder->count('uid');
-
-        return (int)$queryBuilder->executeQuery()->fetchOne();
-    }
-
-    /**
      * @param int[]|null $pageIds Storage pages the user has access to, null means "no restriction"
      * @return array<int, int> Number of news records per storage page
      */

@@ -181,32 +181,4 @@ final class PageRepositoryTest extends AbstractFunctionalTestCase
     {
         self::assertSame([], $this->subject->resolveRestriction([], $this->backendUser(2)));
     }
-
-    public function testBuildOptionsUsesThePathsAndSortsNaturally(): void
-    {
-        self::assertSame(
-            [
-                1 => 'Root',
-                5 => 'Root / Invisible for everyone',
-                2 => 'Root / News',
-                3 => 'Root / News / Company',
-                6 => 'Root / News / Private to restricted group',
-                4 => 'Root / News / Read only',
-            ],
-            $this->subject->buildOptions($this->pagesFor(1))
-        );
-    }
-
-    public function testBuildOptionsFallsBackToTheTitleWithoutAPath(): void
-    {
-        self::assertSame(
-            [7 => 'Deleted page'],
-            $this->subject->buildOptions([7 => ['uid' => 7, 'title' => 'Deleted page', 'path' => '']])
-        );
-    }
-
-    public function testBuildOptionsIsEmptyWithoutPages(): void
-    {
-        self::assertSame([], $this->subject->buildOptions([]));
-    }
 }

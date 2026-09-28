@@ -15,17 +15,13 @@ final class ModuleContext
     /**
      * @param array<int, array<string, mixed>> $pages
      * @param int[]|null $pageIds Restriction for the database queries, null means "no restriction"
-     * @param array<int, array<string, mixed>> $pageTree
-     * @param array<string, string> $createUrls
      */
     public function __construct(
         public readonly int $pageId,
         public readonly array $pages,
         public readonly ?array $pageIds,
-        public readonly array $pageTree,
         public readonly SettingsProvider $settings,
         public readonly NewsConstraint $constraint,
-        public readonly array $createUrls = [],
     ) {}
 
     public function isPageRestricted(): bool

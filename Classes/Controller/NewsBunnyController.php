@@ -118,20 +118,23 @@ final class NewsBunnyController extends ActionController
         $this->addButtonBarButtons($moduleTemplate, $context);
         $this->prepareModuleTemplate($moduleTemplate);
 
+        // One grouped query serves both the header and the indicator of the page tree
+        $newsCounts = $this->newsRepository->countNewsByPage($context->pageIds);
+
         return $moduleTemplate
             ->setFlashMessageQueue($this->getFlashMessageQueue())
             ->setTitle($this->getLabel('module.title', [], 'locallang_mod.xlf'))
             ->assignMultiple([
                 'context' => $context,
                 'pageId' => $context->pageId,
-                'pageTree' => $this->createPageTreeView($context),
+                'pageTree' => $this->createPageTreeView($context, $newsCounts),
                 'filter' => [
                     'open' => $context->settings->getBool('alwaysShowFilter'),
                     'enabled' => $this->createFilterMap($context->settings),
                 ],
                 'records' => $records,
                 'total' => $total,
-                'totalCount' => $this->newsRepository->countAll($pageIds),
+                'totalCount' => array_sum($newsCounts),
                 'page' => $constraint->getPage(),
                 'pageCount' => $pageCount,
                 'perPageOptions' => NewsConstraint::PER_PAGE_OPTIONS,
@@ -140,7 +143,7 @@ final class NewsBunnyController extends ActionController
                 'localizationView' => $context->settings->getBool('localizationView'),
                 'controlPanels' => $controlPanels,
                 'sortable' => $this->isRecordTableSortingAware(),
-                'counts' => $this->fetchCounts($context),
+                'counts' => $this->fetchCounts($context, $newsCounts),
                 'categoryOptions' => $this->newsRepository->findCategories($this->resolveCategoryRoots($context)),
                 'sortingLinks' => $this->createSortingLinks($constraint, $context),
                 'sortingIcons' => $this->createSortingIcons($constraint),
@@ -397,7 +400,6 @@ final class NewsBunnyController extends ActionController
             pageId: $this->pageId,
             pages: $pages,
             pageIds: $pageIds,
-            pageTree: $this->pageTreeBuilder->build($pages, $this->pageId),
             settings: $settings,
             constraint: $constraint,
         );
@@ -549,12 +551,13 @@ final class NewsBunnyController extends ActionController
     /**
      * Counts of the record types, shown above the record list.
      *
+     * @param array<int, int> $newsCounts News records per storage page, already fetched for the page tree
      * @return array{news: int, categories: int, tags: int}
      */
-    private function fetchCounts(ModuleContext $context): array
+    private function fetchCounts(ModuleContext $context, array $newsCounts): array
     {
         return [
-            'news' => $this->newsRepository->countAll($context->pageIds),
+            'news' => array_sum($newsCounts),
             'categories' => array_sum($this->newsRepository->countCategoriesByPage($context->pageIds)),
             'tags' => array_sum($this->newsRepository->countTagsByPage($context->pageIds)),
         ];
@@ -563,12 +566,20 @@ final class NewsBunnyController extends ActionController
     /**
      * The page tree of the module including the link and the state of every node.
      *
+     * A node carries the number of the news records on the page and the number on the
+     * page and all its subpages. The partial shows the first one on the page and the
+     * second one only if it adds something, and a page without any record of its own
+     * shows the number of its subpages alone, because a plain zero next to records
+     * below it says nothing.
+     *
+     * @param array<int, int> $newsCounts News records per storage page
      * @return array{show: bool, allPagesUrl: string, allPagesCurrent: bool, branches: array}
      */
-    private function createPageTreeView(ModuleContext $context): array
+    private function createPageTreeView(ModuleContext $context, array $newsCounts): array
     {
         $settings = $context->settings;
         $ancestors = $this->resolveAncestorIds($context);
+        $pageTree = $this->pageTreeBuilder->build($context->pages, $context->pageId, $newsCounts);
 
         $decorate = function (array $branches, int $level) use (&$decorate, $ancestors): array {
             $result = [];
@@ -581,6 +592,11 @@ final class NewsBunnyController extends ActionController
                     'hidden' => $branch['hidden'],
                     'current' => (bool)$branch['current'],
                     'expanded' => (bool)$branch['current'] || in_array($uid, $ancestors, true),
+                    'newsCount' => $branch['newsCount'],
+                    'newsTotal' => $branch['newsTotal'],
+                    'hasNews' => $branch['newsTotal'] > 0,
+                    'hasOwnNews' => $branch['newsCount'] > 0,
+                    'hasSubTotal' => $branch['newsTotal'] > $branch['newsCount'],
                     'level' => $level * 12,
                     'url' => $this->createModuleUri(['id' => $uid]),
                     'children' => $decorate($branch['children'], $level + 1),
@@ -594,12 +610,14 @@ final class NewsBunnyController extends ActionController
             'show' => !$settings->getBool('hidePageTree') && $settings->getInt('allowedPage') <= 0,
             'allPagesUrl' => $this->createModuleUri(['id' => 0]),
             'allPagesCurrent' => $context->pageId === 0,
-            'branches' => $decorate($context->pageTree, 1),
+            'branches' => $decorate($pageTree, 1),
         ];
     }
 
     /**
-     * Ids of the parents of the current page, used to fold the tree open.
+     * Ids of the parents of the current page, used to fold the tree open. A parent
+     * is resolved to the page it stands for in the tree, because a record may point
+     * to a translated record of its parent page.
      *
      * @return int[]
      */
@@ -609,13 +627,31 @@ final class NewsBunnyController extends ActionController
         $pageId = $context->pageId;
         // guard against loops in a broken page tree
         for ($level = 0; $level < 64 && $pageId > 0; $level++) {
-            $pageId = (int)($context->pages[$pageId]['pid'] ?? 0);
-            if ($pageId > 0) {
-                $ancestors[] = $pageId;
+            $parentUid = (int)($context->pages[$pageId]['pid'] ?? 0);
+            if ($parentUid === 0) {
+                break;
             }
+            $pageId = $this->resolveTreePageId($context->pages, $parentUid);
+            $ancestors[] = $pageId;
         }
 
         return $ancestors;
+    }
+
+    /**
+     * The record of the default language of a page, which is the one the module
+     * tree shows and links to.
+     *
+     * @param array<int, array<string, mixed>> $pages
+     */
+    private function resolveTreePageId(array $pages, int $pageId): int
+    {
+        $parentUid = (int)($pages[$pageId]['l10nParent'] ?? 0);
+        if ((int)($pages[$pageId]['language'] ?? 0) === 0 || $parentUid === 0) {
+            return $pageId;
+        }
+
+        return isset($pages[$parentUid]) ? $parentUid : $pageId;
     }
 
     /**
