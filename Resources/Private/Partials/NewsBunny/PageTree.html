@@ -12,13 +12,16 @@
     <div class="panel-body p-0">
         <!--
             "All pages" is an entry of its own, not the parent of the pages of the
-            tree, so it sits on the same level as the roots below it.
+            tree. Its first box stays empty so that every title of the panel starts on
+            the same line, the same way a page without children does in the tree.
         -->
         <ul class="list-unstyled m-0">
             <li>
-                <a href="{pageTree.allPagesUrl}" class="d-block px-2 py-1 text-truncate{f:if(condition: pageTree.allPagesCurrent, then: ' active')}"
+                <a href="{pageTree.allPagesUrl}"
+                   class="d-flex align-items-center px-2 py-1{f:if(condition: pageTree.allPagesCurrent, then: ' active')}"
                    title="{f:translate(key: 'pageTree.allPages')}">
-                    <f:translate key="pageTree.allPages"/>
+                    <span class="flex-shrink-0" style="width: 16px" aria-hidden="true"></span>
+                    <span class="text-truncate"><f:translate key="pageTree.allPages"/></span>
                 </a>
             </li>
             <f:render partial="NewsBunny/PageTreeBranch" arguments="{branches: pageTree.branches}"/>

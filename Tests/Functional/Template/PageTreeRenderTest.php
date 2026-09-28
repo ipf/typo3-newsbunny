@@ -166,8 +166,48 @@ final class PageTreeRenderTest extends AbstractFunctionalTestCase
         ]);
 
         self::assertStringContainsString('badge badge-info ms-1 flex-shrink-0', $html);
-        // the class which hides the overflow is on the title only, not on the row
-        self::assertSame(1, substr_count($html, 'class="text-truncate"'), 'only the title is truncated');
+        // the class which hides the overflow belongs on the title, never on the row
+        self::assertStringNotContainsString('px-2 py-1 text-truncate', $html);
+        self::assertStringNotContainsString('py-1 text-truncate"', $html, 'no row carries it');
+    }
+
+    /**
+     * Every row of the panel has to reserve the same width before its title. A branch
+     * holds the marker of the fold in that box, a page without children keeps it empty
+     * and "All pages" does the same, so the titles of a level share one line and no
+     * title of the tree sits against the frame of the panel.
+     */
+    public function testEveryRowReservesTheSameBoxBeforeItsTitle(): void
+    {
+        $html = $this->render([
+            1 => $this->branch(1, 'Root', '/module?id=1', 12, 1, 3, [
+                2 => $this->branch(2, 'News', '/module?id=2', 24, 1, 2, [
+                    3 => $this->branch(3, 'Company', '/module?id=3', 36, 1, 1),
+                ]),
+            ]),
+        ]);
+
+        // the entry "All pages", the branch "Root", the branch "News" and the page
+        // "Company" without children
+        self::assertSame(4, substr_count($html, 'class="flex-shrink-0" style="width: 16px"'), 'four rows');
+        // and the two branches of them hold the marker in that box
+        self::assertSame(2, substr_count($html, '<svg class="flex-shrink-0" style="width: 16px"'));
+    }
+
+    /**
+     * The marker the browser draws for a branch is drawn at the left edge of the row
+     * and takes the space of a box that only branches would have. It is switched off
+     * in favour of the marker of the markup.
+     */
+    public function testTheMarkerOfTheBrowserIsSwitchedOff(): void
+    {
+        $html = $this->render([
+            1 => $this->branch(1, 'Root', '/module?id=1', 12, 1, 1, [
+                2 => $this->branch(2, 'News', '/module?id=2', 24, 1, 1),
+            ]),
+        ]);
+
+        self::assertSame(1, substr_count($html, '<summary style="list-style: none"'));
     }
 
     /**
