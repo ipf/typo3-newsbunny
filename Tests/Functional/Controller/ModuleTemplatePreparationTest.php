@@ -6,7 +6,7 @@ namespace Ipf\NewsBunny\Tests\Functional\Controller;
 
 use Ipf\NewsBunny\Controller\NewsBunnyController;
 use Ipf\NewsBunny\Tests\Functional\AbstractFunctionalTestCase;
-use Symfony\Component\Routing\Route;
+use TYPO3\CMS\Backend\Routing\Route;
 use TYPO3\CMS\Backend\Template\Components\Buttons\Action\ShortcutButton;
 use TYPO3\CMS\Backend\Template\Components\ButtonBar;
 use TYPO3\CMS\Backend\Template\Components\DocHeaderComponent;
@@ -63,11 +63,6 @@ final class ModuleTemplatePreparationTest extends AbstractFunctionalTestCase
             // the module template factory reads the extension from the current route
             ->withAttribute('route', new Route(
                 '/typo3/main',
-                [],
-                [],
-                [],
-                '',
-                [],
                 ['packageName' => 'news_bunny']
             ))
             ->withAttribute('applicationType', SystemEnvironmentBuilder::REQUESTTYPE_BE);
