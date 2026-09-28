@@ -16,7 +16,7 @@ tx_newsbunny.module {
     }
     localizationView = 1
     controlPanels = 1
-    alwaysShowFilter = 1
+    alwaysShowFilter = 0
     allowedCategoryRootIds =
     preselect {
         timeRestriction =

@@ -174,10 +174,14 @@ Filters
 ..  confval:: alwaysShowFilter
    :type: bool
    :Path: tx_newsbunny > module
-   :Default: 1
+   :Default: 0
 
-   Keep the filter form opened. If it is switched off, the editor can fold the
-   filter away, the module remembers the state of the browser for the current page.
+   Start the filter form expanded. The form can be folded away either way, the
+   setting only decides how the module opens it.
+
+   The form is opened by itself as soon as a filter of the form is set, so a
+   narrowed down record list is never hidden behind a closed form. A selected page
+   is not a filter of the form, it is shown as selected in the page tree.
 
    .. code-block:: typoscript
 

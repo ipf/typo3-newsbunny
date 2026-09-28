@@ -37,10 +37,12 @@ default language, the translation is shown on its own.
 The filter
 ==========
 
-The filter form is placed above the record list and can be folded away unless the
-setting :ref:`alwaysShowFilter` is switched on. A filter is applied when the button
-:guilabel:`Apply filters` is used, the button :guilabel:`Reset filters` clears the
-filter but keeps the sorting and the number of records per page. The module remembers
+The filter form is placed above the record list and starts folded away, it is opened
+by itself as soon as a filter of it is set. Clicking its title folds it away and
+opens it again. The setting :ref:`alwaysShowFilter` decides whether the module starts
+with the form opened. A filter is applied when the button :guilabel:`Apply filters` is
+used, the button :guilabel:`Reset filters` clears the filter but keeps the sorting and
+the number of records per page. The module remembers
 the filter and the page of the editor for the next visit.
 
 The full text search looks into the title, the teaser and the body text of a record.

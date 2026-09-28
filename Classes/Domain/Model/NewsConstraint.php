@@ -280,6 +280,29 @@ final class NewsConstraint
     }
 
     /**
+     * Is any filter of the filter form set?
+     *
+     * Unlike hasFilters() this leaves the page out, because a selected page is not a
+     * filter the editor has to see explained in the form: it is shown as selected in
+     * the page tree. The module folds the filter away by default and opens it when
+     * this says that a filter is set, so that the record list is never narrowed down
+     * behind a closed form.
+     */
+    public function hasFormFilters(): bool
+    {
+        return $this->searchWord !== null
+            || $this->timeRestriction !== ''
+            || $this->manualDateStart !== ''
+            || $this->manualDateStop !== ''
+            || $this->topNewsRestriction !== ''
+            || $this->archived !== ''
+            || $this->hidden !== ''
+            || $this->categories !== []
+            || $this->language !== self::LANGUAGE_ALL
+            || $this->recursive;
+    }
+
+    /**
      * Filter state as request parameters, used to build links (pagination, sorting, ...).
      */
     public function toQueryParameters(): array

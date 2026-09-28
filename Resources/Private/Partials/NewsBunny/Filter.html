@@ -7,11 +7,21 @@
     <f:form.hidden property="sortingDirection"/>
     <input type="hidden" name="id" value="{pageId}"/>
 
+    <!--
+        The marker of the browser is drawn before the content of the summary and ends
+        up above the row as soon as the row starts with a block, the heading here.
+        It is switched off and replaced by the marker of the markup, which is part of
+        the heading and stays on the same line as the title. The icon and the title
+        stay in a span, because a row of its own would drop the space between them.
+    -->
     <details class="panel panel-default"{f:if(condition: filter.open, then: ' open')}>
-        <summary class="panel-heading">
+        <summary class="panel-heading" style="list-style: none">
             <h5 class="panel-title">
-                <core:icon identifier="actions-filter"/>
-                <f:translate key="filter.title"/>
+                <f:render partial="NewsBunny/DisclosureMarker"/>
+                <span class="ms-1">
+                    <core:icon identifier="actions-filter"/>
+                    <f:translate key="filter.title"/>
+                </span>
             </h5>
         </summary>
         <div class="panel-body">

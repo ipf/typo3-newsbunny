@@ -129,7 +129,10 @@ final class NewsBunnyController extends ActionController
                 'pageId' => $context->pageId,
                 'pageTree' => $this->createPageTreeView($context, $newsCounts),
                 'filter' => [
-                    'open' => $context->settings->getBool('alwaysShowFilter'),
+                    // the filter is folded away by default, but a filter which narrows
+                    // the list down has to stay visible, also with a folded form
+                    'open' => $context->settings->getBool('alwaysShowFilter')
+                        || $constraint->hasFormFilters(),
                     'enabled' => $this->createFilterMap($context->settings),
                 ],
                 'records' => $records,
@@ -577,6 +580,17 @@ final class NewsBunnyController extends ActionController
      * row and does not move with the padding of the row, so a row indent would leave
      * the marker of every level on the same line. A list which is indented carries
      * the marker of a level along with the whole level below it.
+     *
+     * Every row of the tree and the row of the filter panel reserve a box of the
+     * width of a small icon before their title, which holds the marker of the partial
+     * NewsBunny/DisclosureMarker. A page without children keeps the box empty, so the
+     * titles of a level share one line. The marker of the browser is switched off on
+     * the summaries: it is drawn in the box of the list item and takes the space of a
+     * box that only the branches of a level would have, and in the filter panel it
+     * ends up above the row, whose row starts with a heading.
+     * The marker of the markup does not turn with the state of a branch, which keeps
+     * the extension free of a stylesheet. The state is carried by the "details"
+     * element itself and by the content appearing and disappearing.
      *
      * @param array<int, int> $newsCounts News records per storage page
      * @return array{show: bool, allPagesUrl: string, allPagesCurrent: bool, branches: array}

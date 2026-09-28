@@ -39,6 +39,18 @@ final class SettingsProviderTest extends AbstractFunctionalTestCase
         self::assertTrue($this->subject->getBool('hideEmptyPages'));
     }
 
+    public function testTheFilterStartsFoldedAway(): void
+    {
+        self::assertFalse($this->subject->getBool('alwaysShowFilter'));
+    }
+
+    public function testTheFilterCanStartOpened(): void
+    {
+        $this->subject->applyPageTsConfig(3);
+
+        self::assertTrue($this->subject->getBool('alwaysShowFilter'));
+    }
+
     public function testThePageTreeCanShowThePagesWithoutNews(): void
     {
         $this->subject->applyPageTsConfig(3);
@@ -130,7 +142,9 @@ final class SettingsProviderTest extends AbstractFunctionalTestCase
         self::assertSame('3', $this->subject->get('allowedPage'));
         self::assertSame(3, $this->subject->getInt('defaultPage'));
         self::assertTrue($this->subject->getBool('hidePageTree'));
-        self::assertFalse($this->subject->getBool('alwaysShowFilter'));
+        // the default of the filter is the folded form, so this is an override
+        self::assertTrue($this->subject->getBool('alwaysShowFilter'));
+        self::assertFalse($this->subject->getBool('hideEmptyPages'));
         self::assertFalse($this->subject->getBool('localizationView'));
         self::assertFalse($this->subject->getBool('controlPanels'));
     }

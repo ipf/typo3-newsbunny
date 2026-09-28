@@ -36,8 +36,9 @@ return [
     // Show the control panels to toggle, sort and delete records
     'controlPanels' => '1',
 
-    // Keep the filter form opened, otherwise it can be folded away
-    'alwaysShowFilter' => '1',
+    // Start the filter form expanded, it is folded away otherwise and opens by itself
+    // as soon as a filter narrows the record list down
+    'alwaysShowFilter' => '0',
 
     // Limit the categories of the filter to these root categories (comma separated)
     'allowedCategoryRootIds' => '',

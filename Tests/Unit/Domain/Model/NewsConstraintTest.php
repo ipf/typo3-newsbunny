@@ -410,6 +410,73 @@ final class NewsConstraintTest extends UnitTestCase
         self::assertNull($constraint->getTimeLimitHigh());
     }
 
+    /**
+     * The module folds the filter away by default and opens it when a filter of the
+     * form is set, so a selected page must not open it: the page is not a field of
+     * the form and is shown as selected in the page tree.
+     */
+    public function testASelectedPageIsNoFilterOfTheForm(): void
+    {
+        $constraint = new NewsConstraint();
+        $constraint->setStoragePage(42);
+        $constraint->setStoragePageIds([42, 43]);
+
+        // it is a filter for the button which resets the filters
+        self::assertTrue($constraint->hasFilters());
+        // but not for the folded away filter form
+        self::assertFalse($constraint->hasFormFilters());
+    }
+
+    /**
+     * @return \Generator<string, array{\Closure(NewsConstraint): void}>
+     */
+    public static function formFilterProvider(): \Generator
+    {
+        yield 'searchWord' => [static function(NewsConstraint $c): void { $c->setSearchWord('needle'); }];
+        yield 'timeRestriction' => [static function(NewsConstraint $c): void { $c->setTimeRestriction('month'); }];
+        yield 'manualDateStart' => [static function(NewsConstraint $c): void { $c->setManualDateStart('2026-01-01'); }];
+        yield 'manualDateStop' => [static function(NewsConstraint $c): void { $c->setManualDateStop('2026-12-31'); }];
+        yield 'topNewsRestriction' => [static function(NewsConstraint $c): void { $c->setTopNewsRestriction('1'); }];
+        yield 'archived' => [static function(NewsConstraint $c): void { $c->setArchived('1'); }];
+        yield 'hidden' => [static function(NewsConstraint $c): void { $c->setHidden('1'); }];
+        yield 'categories' => [static function(NewsConstraint $c): void { $c->setCategories([7]); }];
+        yield 'language' => [static function(NewsConstraint $c): void { $c->setLanguage(1); }];
+        yield 'recursive' => [static function(NewsConstraint $c): void { $c->setRecursive(true); }];
+    }
+
+    /**
+     * Every field of the form has to open the form, otherwise a filter which narrows
+     * the record list down stays hidden behind a closed form.
+     *
+     * @param \Closure(NewsConstraint): void $applyFilter
+     */
+    #[DataProvider('formFilterProvider')]
+    public function testEveryFieldOfTheFormOpensTheFoldedAwayForm(\Closure $applyFilter): void
+    {
+        $constraint = new NewsConstraint();
+        self::assertFalse($constraint->hasFormFilters(), 'a fresh constraint has no filter');
+
+        $applyFilter($constraint);
+
+        self::assertTrue($constraint->hasFormFilters());
+    }
+
+    /**
+     * The sorting, the number of records per page and the combination of the
+     * categories change the list without being a filter, they must not open the form
+     * on every visit.
+     */
+    public function testSortingAndPageSizeAreNoFiltersOfTheForm(): void
+    {
+        $constraint = new NewsConstraint();
+        $constraint->setSortingField('title');
+        $constraint->setSortingDirection('asc');
+        $constraint->setPerPage(50);
+        $constraint->setCategoryConjunction('and');
+
+        self::assertFalse($constraint->hasFormFilters());
+    }
+
     public function testManualDatesWinOverTheRelativeTimeRestriction(): void
     {
         $constraint = new NewsConstraint();
