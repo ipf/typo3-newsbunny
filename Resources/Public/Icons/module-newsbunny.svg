@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-    <g fill="currentColor">
-        <ellipse cx="24" cy="12" rx="3.6" ry="10" transform="rotate(-14 24 12)"/>
-        <ellipse cx="40" cy="12" rx="3.6" ry="10" transform="rotate(14 40 12)"/>
+    <!--
+        Module icon of EXT:news_bunny, drawn in the style of the TYPO3 module icons in
+        EXT:core/Resources/Public/Icons/T3Icons/svgs/module: a white symbol on a colored
+        full-bleed box. The box carries its own color, so the icon needs no color scheme
+        handling and looks the same in the light and in the dark backend. The bunny head
+        is drawn bold enough to stay readable at the 16px of the module menu.
+    -->
+    <rect width="64" height="64" fill="#4CA55F"/>
+    <g fill="#FFF">
+        <ellipse cx="20.5" cy="21" rx="5.2" ry="12" transform="rotate(-14 20.5 21)"/>
+        <ellipse cx="43.5" cy="21" rx="5.2" ry="12" transform="rotate(14 43.5 21)"/>
         <path fill-rule="evenodd"
-              d="M14 18h22l12 12v26a4 4 0 0 1-4 4H14a4 4 0 0 1-4-4V22a4 4 0 0 1 4-4zm3 24v4h26v-4H17zm0 8v4h18v-4H17z"/>
-        <path d="M36 18l12 12h-8a4 4 0 0 1-4-4v-8z"/>
+              d="M22 28h20a10 10 0 0 1 10 10v6a10 10 0 0 1-10 10H22a10 10 0 0 1-10-10v-6a10 10 0 0 1 10-10z
+                 m4.5 12a3 3 0 1 0 0 6 3 3 0 0 0 0-6z
+                 m13 0a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
     </g>
 </svg>

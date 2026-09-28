@@ -7,7 +7,12 @@
 <f:section name="Content">
     <h1><f:translate key="delete.title"/></h1>
 
-    <f:be.infobox state="{f:constant(name: 'TYPO3\\CMS\\Core\\Type\\ContextualFeedbackSeverity::WARNING')}"
+    <!--
+        The state is passed as the integer of InfoboxViewHelper instead of a
+        ContextualFeedbackSeverity: TYPO3 v13 registers the argument as "int" and
+        rejects the enum, while v14 accepts both.
+    -->
+    <f:be.infobox state="{f:constant(name: 'TYPO3\\CMS\\Fluid\\ViewHelpers\\Be\\InfoboxViewHelper::STATE_WARNING')}"
                   title="{f:translate(key: 'delete.question', arguments: {0: record.title, 1: record.uid})}">
         <p><f:translate key="delete.location" arguments="{0: record.page.path}"/></p>
         <p><f:translate key="delete.hint"/></p>
