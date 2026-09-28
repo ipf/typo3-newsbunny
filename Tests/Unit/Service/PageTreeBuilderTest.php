@@ -377,6 +377,153 @@ final class PageTreeBuilderTest extends UnitTestCase
         self::assertSame(2, $tree[1]['newsTotal']);
     }
 
+    /**
+     * uid => news records on the page, used by the tests of the page tree without
+     * empty pages. The siblings are ordered by title, so the page uids and the
+     * expected order do not match.
+     */
+    private function pagesWithNews(): array
+    {
+        return $this->pages([
+            1 => [0, 'Root', false],
+            2 => [1, 'News', false],
+            3 => [2, 'Company', false],
+            4 => [1, 'Archive', false],
+        ]);
+    }
+
+    public function testBuildKeepsEveryPageByDefault(): void
+    {
+        $pages = $this->pagesWithNews();
+
+        $tree = $this->subject->build($pages, 0, [3 => 1]);
+
+        self::assertSame([1], array_keys($tree));
+        self::assertSame([4, 2], array_keys($tree[1]['children']));
+    }
+
+    public function testBuildDropsThePagesWithoutNewsRecords(): void
+    {
+        $pages = $this->pagesWithNews();
+
+        $tree = $this->subject->build($pages, 0, [3 => 1], 6, true);
+
+        // the page 4 holds nothing and is gone, the way down to page 3 is kept
+        self::assertSame([1], array_keys($tree));
+        self::assertSame([2], array_keys($tree[1]['children']));
+        self::assertSame([3], array_keys($tree[1]['children'][2]['children']));
+    }
+
+    /**
+     * A page which only leads to a page with records has to stay, it is the way down.
+     */
+    public function testBuildKeepsAPageWhichOnlyLeadsToPagesWithNews(): void
+    {
+        $pages = $this->pages([
+            1 => [0, 'Root', false],
+            2 => [1, 'Folder', false],
+            3 => [2, 'News', false],
+        ]);
+
+        $tree = $this->subject->build($pages, 0, [3 => 7], 6, true);
+
+        self::assertSame([1], array_keys($tree));
+        self::assertSame([2], array_keys($tree[1]['children']));
+        self::assertSame(0, $tree[1]['children'][2]['newsCount']);
+        self::assertSame(7, $tree[1]['children'][2]['newsTotal']);
+    }
+
+    public function testBuildDropsTheWholeTreeWithoutAnyNewsRecord(): void
+    {
+        $pages = $this->pagesWithNews();
+
+        self::assertSame([], $this->subject->build($pages, 0, [], 6, true));
+    }
+
+    /**
+     * The page of the request has to stay visible even without records, otherwise the
+     * editor does not see where the record list is empty.
+     */
+    public function testBuildKeepsThePageOfTheRequestWithoutNewsRecords(): void
+    {
+        $pages = $this->pagesWithNews();
+
+        $tree = $this->subject->build($pages, 3, [2 => 1], 6, true);
+
+        self::assertSame([1], array_keys($tree));
+        self::assertSame([2], array_keys($tree[1]['children']));
+        self::assertSame([3], array_keys($tree[1]['children'][2]['children']));
+        self::assertTrue($tree[1]['children'][2]['children'][3]['current']);
+    }
+
+    /**
+     * Only the pages leading to the page of the request are kept, the other branches
+     * disappear even though the page of the request holds no records at all.
+     */
+    public function testBuildKeepsThePathToThePageOfTheRequestOnly(): void
+    {
+        $pages = $this->pages([
+            1 => [0, 'Root', false],
+            2 => [1, 'Folder', false],
+            3 => [2, 'News', false],
+            4 => [1, 'Other folder', false],
+        ]);
+
+        $tree = $this->subject->build($pages, 3, [], 6, true);
+
+        self::assertSame([1], array_keys($tree));
+        self::assertSame([2], array_keys($tree[1]['children']));
+        self::assertSame([3], array_keys($tree[1]['children'][2]['children']));
+        self::assertArrayNotHasKey(4, $tree[1]['children']);
+    }
+
+    /**
+     * The numbers of the pages that stay must not change, a dropped page holds no
+     * records and would add nothing to the page above it.
+     */
+    public function testBuildKeepsTheNumbersOfTheRemainingPages(): void
+    {
+        $pages = $this->pages([
+            1 => [0, 'Root', false],
+            2 => [1, 'News', false],
+            3 => [2, 'Company', false],
+            4 => [1, 'Dead end', false],
+        ]);
+        $counts = [2 => 3, 3 => 1];
+
+        $withAllPages = $this->subject->build($pages, 0, $counts);
+        $withoutEmptyPages = $this->subject->build($pages, 0, $counts, 6, true);
+
+        self::assertSame([4, 2], array_keys($withAllPages[1]['children']));
+        self::assertSame([2], array_keys($withoutEmptyPages[1]['children']));
+        self::assertSame(4, $withAllPages[1]['newsTotal']);
+        self::assertSame(4, $withoutEmptyPages[1]['newsTotal']);
+        // the page "News" holds three records itself and one on the page below it
+        self::assertSame(3, $withAllPages[1]['children'][2]['newsCount']);
+        self::assertSame(3, $withoutEmptyPages[1]['children'][2]['newsCount']);
+        self::assertSame(4, $withAllPages[1]['children'][2]['newsTotal']);
+        self::assertSame(4, $withoutEmptyPages[1]['children'][2]['newsTotal']);
+    }
+
+    /**
+     * A page below the cut off level is not rendered, but the page above it is kept
+     * because it holds records further down.
+     */
+    public function testBuildKeepsAPageWithNewsBelowTheMaximumDepth(): void
+    {
+        $pages = $this->pages([
+            1 => [0, 'L1', false],
+            2 => [1, 'L2', false],
+            3 => [2, 'L3', false],
+        ]);
+
+        $tree = $this->subject->build($pages, 0, [3 => 1], 2, true);
+
+        self::assertSame([1], array_keys($tree));
+        self::assertSame([2], array_keys($tree[1]['children']));
+        self::assertSame(1, $tree[1]['children'][2]['newsTotal']);
+    }
+
     public function testCollectIdsReturnsNothingForTheRootLevel(): void
     {
         $pages = $this->pages([1 => [0, 'Root', false]]);

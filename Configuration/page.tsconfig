@@ -5,6 +5,7 @@
 tx_newsbunny.module {
     columns = teaser,datetime,categories,status
     hidePageTree = 0
+    hideEmptyPages = 1
     defaultPage = 0
     allowedPage = 0
     redirectToPageOnStart = 0

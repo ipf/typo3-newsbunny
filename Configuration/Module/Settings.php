@@ -10,6 +10,10 @@ return [
     // Page tree of the module, see "defaultPage" for the alternative
     'hidePageTree' => '0',
 
+    // Limit the page tree to the pages which hold news records, on the page itself
+    // or on one of its subpages
+    'hideEmptyPages' => '1',
+
     // Page the module starts with, if no page is selected in the page tree
     'defaultPage' => '0',
 

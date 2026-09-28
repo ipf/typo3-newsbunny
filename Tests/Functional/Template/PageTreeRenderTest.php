@@ -40,8 +40,8 @@ final class PageTreeRenderTest extends AbstractFunctionalTestCase
     public function testThePageTreeRendersTheNumberOfNewsRecords(): void
     {
         $html = $this->render([
-            1 => $this->branch(1, 'Root', '/module?id=1', 0, 5, 5, [
-                2 => $this->branch(2, 'News', '/module?id=2', 1, 3, 3),
+            1 => $this->branch(1, 'Root', '/module?id=1', 12, 5, 5, [
+                2 => $this->branch(2, 'News', '/module?id=2', 24, 3, 3),
             ]),
         ]);
 
@@ -53,8 +53,8 @@ final class PageTreeRenderTest extends AbstractFunctionalTestCase
     public function testAPageWithRecordsOnlyBelowShowsTheNumberOfItsSubpages(): void
     {
         $html = $this->render([
-            1 => $this->branch(1, 'Root', '/module?id=1', 0, 0, 12, [
-                2 => $this->branch(2, 'News', '/module?id=2', 1, 12, 12),
+            1 => $this->branch(1, 'Root', '/module?id=1', 12, 0, 12, [
+                2 => $this->branch(2, 'News', '/module?id=2', 24, 12, 12),
             ]),
         ]);
 
@@ -68,8 +68,8 @@ final class PageTreeRenderTest extends AbstractFunctionalTestCase
     public function testAPageWithoutNewsRecordsIsRenderedWithAZero(): void
     {
         $html = $this->render([
-            1 => $this->branch(1, 'Root', '/module?id=1', 0, 0, 0, [
-                2 => $this->branch(2, 'News', '/module?id=2', 1, 0, 0),
+            1 => $this->branch(1, 'Root', '/module?id=1', 12, 0, 0, [
+                2 => $this->branch(2, 'News', '/module?id=2', 24, 0, 0),
             ]),
         ]);
 
@@ -80,7 +80,7 @@ final class PageTreeRenderTest extends AbstractFunctionalTestCase
     public function testASingleRecordIsNotPlural(): void
     {
         $html = $this->render([
-            1 => $this->branch(1, 'Root', '/module?id=1', 0, 1, 1),
+            1 => $this->branch(1, 'Root', '/module?id=1', 12, 1, 1),
         ]);
 
         self::assertStringContainsString('1 news record', $html);
@@ -90,8 +90,8 @@ final class PageTreeRenderTest extends AbstractFunctionalTestCase
     public function testTheNumberIsAnnouncedToAScreenReader(): void
     {
         $html = $this->render([
-            1 => $this->branch(1, 'Root', '/module?id=1', 0, 0, 0, [
-                2 => $this->branch(2, 'News', '/module?id=2', 1, 4, 4),
+            1 => $this->branch(1, 'Root', '/module?id=1', 12, 0, 0, [
+                2 => $this->branch(2, 'News', '/module?id=2', 24, 4, 4),
             ]),
         ]);
 
@@ -104,7 +104,7 @@ final class PageTreeRenderTest extends AbstractFunctionalTestCase
     public function testAPageWithTheSameNumberOnItAndBelowShowsTheNumberOnlyOnce(): void
     {
         $html = $this->render([
-            1 => $this->branch(1, 'Root', '/module?id=1', 0, 7, 7),
+            1 => $this->branch(1, 'Root', '/module?id=1', 12, 7, 7),
         ]);
 
         self::assertSame(1, substr_count($html, '>7<'), 'the total adds nothing to the count of the page');
@@ -113,7 +113,7 @@ final class PageTreeRenderTest extends AbstractFunctionalTestCase
     public function testOnlyTheClassesOfTheBackendAreUsed(): void
     {
         $html = $this->render([
-            1 => $this->branch(1, 'Root', '/module?id=1', 0, 4, 9),
+            1 => $this->branch(1, 'Root', '/module?id=1', 12, 4, 9),
         ]);
 
         // "text-bg-light" is a Bootstrap 5.2 utility, the module also runs on TYPO3 v13
@@ -123,13 +123,61 @@ final class PageTreeRenderTest extends AbstractFunctionalTestCase
     }
 
     /**
+     * Every level of the tree has to be a list of its own. The disclosure marker of a
+     * branch is drawn at the left edge of its row and does not follow the padding of
+     * the row, so a row indent would leave the marker of every level on one line and
+     * the nesting would not be readable.
+     */
+    public function testEveryLevelOfTheTreeIsAListOfItsOwn(): void
+    {
+        $html = $this->render([
+            1 => $this->branch(1, 'Root', '/module?id=1', 12, 1, 2, [
+                2 => $this->branch(2, 'News', '/module?id=2', 24, 1, 1, [
+                    3 => $this->branch(3, 'Company', '/module?id=3', 36, 1, 1),
+                ]),
+            ]),
+        ]);
+
+        // one list for the pages of the module tree and one for every branch
+        self::assertSame(3, substr_count($html, '<ul class="list-unstyled m-0"'), 'one list per level');
+        // the three pages of the tree plus the entry "All pages"
+        self::assertSame(4, substr_count($html, '<li>'), 'every page is an item of a list');
+    }
+
+    public function testTheIndentOfALevelSitsOnItsListAndNotOnTheRow(): void
+    {
+        $html = $this->render([
+            1 => $this->branch(1, 'Root', '/module?id=1', 12, 1, 2, [
+                2 => $this->branch(2, 'News', '/module?id=2', 24, 1, 1),
+            ]),
+        ]);
+
+        self::assertStringContainsString('<ul class="list-unstyled m-0" style="padding-left: 12px">', $html);
+    }
+
+    /**
+     * The number of records must not be shortened away by a long page title, so it
+     * sits next to the title instead of inside it.
+     */
+    public function testTheNumberIsNotInsideTheTruncatedTitle(): void
+    {
+        $html = $this->render([
+            1 => $this->branch(1, 'A page with a title far too long for the sidebar', '/module?id=1', 12, 3, 3),
+        ]);
+
+        self::assertStringContainsString('badge badge-info ms-1 flex-shrink-0', $html);
+        // the class which hides the overflow is on the title only, not on the row
+        self::assertSame(1, substr_count($html, 'class="text-truncate"'), 'only the title is truncated');
+    }
+
+    /**
      * @return array<string, mixed>
      */
     private function branch(
         int $uid,
         string $title,
         string $url,
-        int $level,
+        int $childIndent,
         int $newsCount,
         int $newsTotal,
         array $children = []
@@ -146,7 +194,7 @@ final class PageTreeRenderTest extends AbstractFunctionalTestCase
             'hasNews' => $newsTotal > 0,
             'hasOwnNews' => $newsCount > 0,
             'hasSubTotal' => $newsTotal > $newsCount,
-            'level' => $level * 12,
+            'childIndent' => $childIndent,
             'url' => $url,
             'children' => $children,
         ];

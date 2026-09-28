@@ -25,6 +25,9 @@ final class PageTreeBuilder
     /**
      * @param array<int, array<string, mixed>> $pages uid => page information
      * @param array<int, int> $newsCounts uid of a page => news records on it, as returned by NewsRepository
+     * @param bool $hideEmptyPages Only keep the pages which hold news records, see the module setting of the
+     *                             same name. Needs $newsCounts, an empty list then means that no page holds
+     *                             any record and the whole tree is dropped.
      * @return array<int, array{
      *     uid: int,
      *     title: string,
@@ -36,8 +39,13 @@ final class PageTreeBuilder
      *     children: array<int, array<string, mixed>>
      * }>
      */
-    public function build(array $pages, int $currentPageId, array $newsCounts = [], int $maxDepth = 6): array
-    {
+    public function build(
+        array $pages,
+        int $currentPageId,
+        array $newsCounts = [],
+        int $maxDepth = 6,
+        bool $hideEmptyPages = false
+    ): array {
         $families = $this->groupLanguageVariants($pages);
         $tree = $this->groupIntoTree($pages, $families);
         $roots = $tree['roots'];
@@ -76,8 +84,12 @@ final class PageTreeBuilder
 
         $tree = $build($roots, 1, []);
         $totals = $this->collectSubtreeTotals($roots, $children, $ownCounts);
+        $tree = $this->applySubtreeTotals($tree, $totals);
+        if (!$hideEmptyPages) {
+            return $tree;
+        }
 
-        return $this->applySubtreeTotals($tree, $totals);
+        return $this->pruneEmptyPages($tree, $this->collectPathToPage($tree, $currentUid));
     }
 
     /**
@@ -200,6 +212,58 @@ final class PageTreeBuilder
         }
 
         return false;
+    }
+
+    /**
+     * Drops the pages which hold no news records, neither themselves nor on any of
+     * their subpages. A page which only leads to a page with records is kept, it is
+     * the way down to them.
+     *
+     * The page of the request and the pages leading to it are kept even without
+     * records, otherwise the editor would not see where the record list is empty.
+     *
+     * A dropped page holds no records, so it never changes the number of records of
+     * the pages above it and the numbers of the remaining pages stay correct.
+     *
+     * @param array<int, array<string, mixed>> $tree
+     * @param array<int, true> $path
+     * @return array<int, array<string, mixed>>
+     */
+    private function pruneEmptyPages(array $tree, array $path): array
+    {
+        $result = [];
+        foreach ($tree as $uid => $node) {
+            $node['children'] = $this->pruneEmptyPages($node['children'], $path);
+            if ($node['newsTotal'] === 0 && !isset($path[$uid])) {
+                continue;
+            }
+            $result[$uid] = $node;
+        }
+
+        return $result;
+    }
+
+    /**
+     * The page of the request and the pages leading to it, empty if the page is not
+     * part of the tree, which is the case on the "All pages" level.
+     *
+     * @param array<int, array<string, mixed>> $tree
+     * @param array<int, true> $path
+     * @return array<int, true>
+     */
+    private function collectPathToPage(array $tree, int $currentUid, array $path = []): array
+    {
+        foreach ($tree as $uid => $node) {
+            if ($uid === $currentUid) {
+                return $path + [$uid => true];
+            }
+            $pathToPage = $this->collectPathToPage($node['children'], $currentUid, $path + [$uid => true]);
+            if ($pathToPage !== []) {
+                return $pathToPage;
+            }
+        }
+
+        return [];
     }
 
     /**

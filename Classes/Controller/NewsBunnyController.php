@@ -572,6 +572,12 @@ final class NewsBunnyController extends ActionController
      * shows the number of its subpages alone, because a plain zero next to records
      * below it says nothing.
      *
+     * The nodes carry the indent of their own list of children instead of an indent
+     * for the row. The disclosure marker of a branch is drawn at the left edge of the
+     * row and does not move with the padding of the row, so a row indent would leave
+     * the marker of every level on the same line. A list which is indented carries
+     * the marker of a level along with the whole level below it.
+     *
      * @param array<int, int> $newsCounts News records per storage page
      * @return array{show: bool, allPagesUrl: string, allPagesCurrent: bool, branches: array}
      */
@@ -579,7 +585,12 @@ final class NewsBunnyController extends ActionController
     {
         $settings = $context->settings;
         $ancestors = $this->resolveAncestorIds($context);
-        $pageTree = $this->pageTreeBuilder->build($context->pages, $context->pageId, $newsCounts);
+        $pageTree = $this->pageTreeBuilder->build(
+            $context->pages,
+            $context->pageId,
+            $newsCounts,
+            hideEmptyPages: $settings->getBool('hideEmptyPages')
+        );
 
         $decorate = function (array $branches, int $level) use (&$decorate, $ancestors): array {
             $result = [];
@@ -597,7 +608,9 @@ final class NewsBunnyController extends ActionController
                     'hasNews' => $branch['newsTotal'] > 0,
                     'hasOwnNews' => $branch['newsCount'] > 0,
                     'hasSubTotal' => $branch['newsTotal'] > $branch['newsCount'],
-                    'level' => $level * 12,
+                    // the indent of the list which holds the children of this page, the
+                    // pages of the module tree itself start without one
+                    'childIndent' => $level * 12,
                     'url' => $this->createModuleUri(['id' => $uid]),
                     'children' => $decorate($branch['children'], $level + 1),
                 ];

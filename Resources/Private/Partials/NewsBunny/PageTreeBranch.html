@@ -2,35 +2,46 @@
       xmlns:core="http://typo3.org/ns/TYPO3/CMS/Core/ViewHelpers"
       data-namespace-typo3-fluid="true">
 
+<!--
+    The title of a page is truncated on its own, the numbers next to it are never
+    shortened away by a long page title. Every level of the tree is a list of its
+    own which carries the indent of the level, because the disclosure marker of a
+    branch is drawn at the left edge of its row and does not follow the padding of
+    the row.
+-->
 <f:for each="{branches}" as="branch">
     <li>
         <f:if condition="{branch.children}">
             <f:then>
                 <details class="newsbunny-page-tree-branch"{f:if(condition: branch.expanded, then: ' open')}>
-                    <summary class="px-2 py-1 text-truncate{f:if(condition: branch.current, then: ' active')}"
-                             title="{branch.path}"
-                             style="padding-left: {branch.level}px">
-                        <a href="{branch.url}" class="text-decoration-none">
-                            <core:icon identifier="apps-pagetree-page-default"/>
-                            {branch.title}
+                    <summary class="{f:if(condition: branch.current, then: 'active')}" title="{branch.path}">
+                        <a href="{branch.url}" class="d-flex align-items-center px-2 py-1 text-decoration-none">
+                            <span class="text-truncate">
+                                <core:icon identifier="apps-pagetree-page-default"/>
+                                {branch.title}
+                            </span>
+                            <f:render partial="NewsBunny/PageTreeCounts" arguments="{branch: branch}"/>
+                            <f:if condition="{branch.hidden}">
+                                <span class="badge badge-warning flex-shrink-0"><f:translate key="storagePages.hidden"/></span>
+                            </f:if>
                         </a>
-                        <f:render partial="NewsBunny/PageTreeCounts" arguments="{branch: branch}"/>
-                        <f:if condition="{branch.hidden}">
-                            <span class="badge badge-warning"><f:translate key="storagePages.hidden"/></span>
-                        </f:if>
                     </summary>
-                    <f:render partial="NewsBunny/PageTreeBranch" arguments="{branches: branch.children}"/>
+                    <ul class="list-unstyled m-0" style="padding-left: {branch.childIndent}px">
+                        <f:render partial="NewsBunny/PageTreeBranch" arguments="{branches: branch.children}"/>
+                    </ul>
                 </details>
             </f:then>
             <f:else>
-                <a href="{branch.url}" class="d-block px-2 py-1 text-truncate{f:if(condition: branch.current, then: ' active')}"
-                   title="{branch.path}"
-                   style="padding-left: {branch.level}px">
-                    <core:icon identifier="apps-pagetree-page-default"/>
-                    {branch.title}
+                <a href="{branch.url}"
+                   class="d-flex align-items-center px-2 py-1{f:if(condition: branch.current, then: ' active')}"
+                   title="{branch.path}">
+                    <span class="text-truncate">
+                        <core:icon identifier="apps-pagetree-page-default"/>
+                        {branch.title}
+                    </span>
                     <f:render partial="NewsBunny/PageTreeCounts" arguments="{branch: branch}"/>
                     <f:if condition="{branch.hidden}">
-                        <span class="badge badge-warning"><f:translate key="storagePages.hidden"/></span>
+                        <span class="badge badge-warning flex-shrink-0"><f:translate key="storagePages.hidden"/></span>
                     </f:if>
                 </a>
             </f:else>

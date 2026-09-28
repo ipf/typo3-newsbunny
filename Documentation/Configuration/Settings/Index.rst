@@ -29,6 +29,22 @@ Page context
 
       tx_newsbunny.module.hidePageTree = 1
 
+..  confval:: hideEmptyPages
+   :type: bool
+   :Path: tx_newsbunny > module
+   :Default: 1
+
+   Limit the page tree to the pages which hold news records. A page is kept if it
+   holds records itself or if one of its subpages does, because a page that only
+   leads to a page with records is the way down to it.
+
+   The page the editor has selected and the pages leading to it are always shown,
+   also without records, so the editor can see where the record list is empty.
+
+   .. code-block:: typoscript
+
+      tx_newsbunny.module.hideEmptyPages = 0
+
 ..  confval:: defaultPage
    :type: int
    :Path: tx_newsbunny > module

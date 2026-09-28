@@ -3,7 +3,7 @@
 
 <f:if condition="{branch.hasOwnNews}">
     <f:then>
-        <span class="badge badge-info ms-1"
+        <span class="badge badge-info ms-1 flex-shrink-0"
               title="{f:translate(key: 'pageTree.count.own', arguments: {count: branch.newsCount})}">
             <span aria-hidden="true">{branch.newsCount}</span>
             <span class="visually-hidden">
@@ -11,7 +11,7 @@
             </span>
         </span>
         <f:if condition="{branch.hasSubTotal}">
-            <span class="badge badge-secondary ms-1"
+            <span class="badge badge-secondary ms-1 flex-shrink-0"
                   title="{f:translate(key: 'pageTree.count.total', arguments: {count: branch.newsTotal})}">
                 <span aria-hidden="true">{branch.newsTotal}</span>
                 <span class="visually-hidden">
@@ -23,7 +23,7 @@
     <f:else>
         <f:if condition="{branch.hasNews}">
             <f:then>
-                <span class="badge badge-info ms-1"
+                <span class="badge badge-info ms-1 flex-shrink-0"
                       title="{f:translate(key: 'pageTree.count.total', arguments: {count: branch.newsTotal})}">
                     <span aria-hidden="true">{branch.newsTotal}</span>
                     <span class="visually-hidden">
@@ -32,7 +32,7 @@
                 </span>
             </f:then>
             <f:else>
-                <span class="badge badge-secondary ms-1" title="{f:translate(key: 'pageTree.count.none')}">
+                <span class="badge badge-secondary ms-1 flex-shrink-0" title="{f:translate(key: 'pageTree.count.none')}">
                     <span aria-hidden="true">0</span>
                     <span class="visually-hidden"><f:translate key="pageTree.count.none"/></span>
                 </span>

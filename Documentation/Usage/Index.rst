@@ -22,6 +22,12 @@ page without records of its own shows the number of its subpages, a page without
 record at all is marked with a zero. The numbers are not affected by the filter, they
 always show what is stored on the page.
 
+The page tree is limited to the pages which hold news records, see the setting
+:ref:`hideEmptyPages`. A page that only leads to a page with records stays in the
+tree, it is the way down to it. The page the editor has selected stays visible even
+without records, so an empty record list can be told apart from a page which is not
+shown at all.
+
 A page that is translated is shown once, with the title of the default language. The
 records which are stored on a translated page belong to that page and are counted and
 listed with it, the filter for the language narrows the record list down to a single

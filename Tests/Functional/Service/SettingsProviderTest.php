@@ -34,6 +34,18 @@ final class SettingsProviderTest extends AbstractFunctionalTestCase
         self::assertSame('1', $this->subject->get('localizationView'));
     }
 
+    public function testThePageTreeIsLimitedToThePagesWithNewsByDefault(): void
+    {
+        self::assertTrue($this->subject->getBool('hideEmptyPages'));
+    }
+
+    public function testThePageTreeCanShowThePagesWithoutNews(): void
+    {
+        $this->subject->applyPageTsConfig(3);
+
+        self::assertFalse($this->subject->getBool('hideEmptyPages'));
+    }
+
     public function testGetReturnsTheDefaultForUnknownKeys(): void
     {
         self::assertNull($this->subject->get('doesNotExist'));

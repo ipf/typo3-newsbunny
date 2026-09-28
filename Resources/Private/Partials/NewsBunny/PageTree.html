@@ -10,6 +10,10 @@
         </h4>
     </div>
     <div class="panel-body p-0">
+        <!--
+            "All pages" is an entry of its own, not the parent of the pages of the
+            tree, so it sits on the same level as the roots below it.
+        -->
         <ul class="list-unstyled m-0">
             <li>
                 <a href="{pageTree.allPagesUrl}" class="d-block px-2 py-1 text-truncate{f:if(condition: pageTree.allPagesCurrent, then: ' active')}"

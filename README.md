@@ -9,8 +9,8 @@ editors a dedicated working area for the news records of a site.
 
 ## Features
 
-- Own page tree with the number of news records per page, optionally including
-  subpages or limited to a single page
+- Own page tree with the number of news records per page, limited to the pages which
+  hold records, optionally including subpages or limited to a single page
 - Record list with configurable columns, sorting and pagination
 - Filters for full text, time range, top news, archive state, visibility, language
   and categories
