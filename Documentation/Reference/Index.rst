@@ -98,7 +98,7 @@ Files
    * - :file:`Configuration/page.tsconfig`
      - The defaults as page TSconfig
    * - :file:`Configuration/Icons.php`
-     - The icons of the module
+     - The registration of the icons, with the version condition for the icon language
    * - :file:`Configuration/Services.yaml`
      - Registration of the services
    * - :file:`Classes/Controller/NewsBunnyController.php`
@@ -119,3 +119,36 @@ Files
      - The settings, merged from the defaults and the page TSconfig
    * - :file:`Resources/Private/Language/locallang.xlf`
      - The labels of the module
+
+Icons
+=====
+
+The two supported Core versions draw the icons of the backend in two different languages,
+so the module has one file per language and a condition in
+:file:`Configuration/Icons.php` that picks the right one. The identifiers stay the same in
+both branches, so the module registration and the button of the controller do not have to
+know which Core version is running.
+
+..  list-table::
+   :header-rows: 1
+   :widths: 20 40 40
+
+   * - Core version
+     - Module icon
+     - Icon of the storage page button
+   * - TYPO3 14
+     - :file:`Resources/Public/Icons/module-newsbunny.svg`
+     - :file:`Resources/Public/Icons/module-newsbunny-storage-pages.svg`
+   * - TYPO3 13
+     - :file:`Resources/Public/Icons/v13/module-newsbunny.svg`
+     - :file:`Resources/Public/Icons/v13/module-newsbunny-storage-pages.svg`
+
+TYPO3 14 draws the module icons as line art: no background rectangle, the silhouette in
+``currentColor`` so it follows the text color of the theme, and the accent from the CSS
+token ``icon-color-accent``. One file is therefore correct in the light and in the dark
+color scheme. TYPO3 13 draws them as a white symbol on a full-bleed box of a fixed color,
+the way its own module icons are drawn, and a v14 icon would land on the neutral tile of
+the module menu instead of reading as a module icon.
+
+The icon of the storage page view is not drawn for the module menu but for a button of the
+doc header, which is 16px, so its v13 file is a small monochrome icon without a box.

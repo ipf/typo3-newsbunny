@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+    <!--
+        Module icon of EXT:news_bunny for TYPO3 13 only. It is used when the backend runs
+        the Core version 13, because 13 draws the icons of the module menu in a different
+        language than 14: a white symbol on a full-bleed box of a fixed color, the way
+        EXT:core/Resources/Public/Icons/T3Icons/svgs/module does it in the 13.4 branch.
+
+        Without the box, a v14 icon lands on the neutral background of the module menu in
+        13 and the module is read as a dark silhouette on a grey tile instead of as one
+        of the colored module icons. The box carries the color of the icon, so the file
+        needs no color scheme handling at all.
+
+        The bunny head is the same drawing as the v14 icon, white on the green box. It is
+        drawn bold enough to stay readable at the 16px of the module menu.
+    -->
+    <rect width="64" height="64" fill="#4CA55F"/>
+    <g fill="#FFF">
+        <ellipse cx="20.5" cy="21" rx="5.2" ry="12" transform="rotate(-14 20.5 21)"/>
+        <ellipse cx="43.5" cy="21" rx="5.2" ry="12" transform="rotate(14 43.5 21)"/>
+        <path fill-rule="evenodd"
+              d="M22 28h20a10 10 0 0 1 10 10v6a10 10 0 0 1-10 10H22a10 10 0 0 1-10-10v-6a10 10 0 0 1 10-10z
+                 m4.5 12a3 3 0 1 0 0 6 3 3 0 0 0 0-6z
+                 m13 0a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+    </g>
+</svg>

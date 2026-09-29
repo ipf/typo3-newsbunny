@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16">
+    <!--
+        Icon of the storage page view of EXT:news_bunny for TYPO3 13 only.
+
+        Unlike the module icon this one is not drawn for the module menu but for the
+        button that switches to the storage page listing, so it follows the icon language
+        of the small inline icons of 13, the way EXT:core draws its actions icons: a
+        monochrome shape on a transparent background in currentColor, 16x16. A full-bleed
+        box would be a colored square in a 16px button.
+
+        The metaphor is the one of the v14 icon: a folder with the two record lines that
+        it holds, the lines cut out of the folder.
+    -->
+    <path fill="currentColor" fill-rule="evenodd"
+          d="M2.5 3h3.4c.4 0 .78.16 1.06.44L7.5 4.5h6A1.5 1.5 0 0 1 15 6v6.5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 1 12.5V4.5A1.5 1.5 0 0 1 2.5 3Z
+             m3 4.5h5a.75.75 0 0 1 0 1.5h-5A.75.75 0 0 1 5.5 7.5Z
+             m0 2.75h3.5a.75.75 0 0 1 0 1.5h-3.5A.75.75 0 0 1 5.5 10.25Z"/>
+</svg>
