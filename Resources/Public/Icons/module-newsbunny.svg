@@ -1,19 +1,27 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
     <!--
-        Module icon of EXT:news_bunny, drawn in the style of the TYPO3 module icons in
-        EXT:core/Resources/Public/Icons/T3Icons/svgs/module: a white symbol on a colored
-        full-bleed box. The box carries its own color, so the icon needs no color scheme
-        handling and looks the same in the light and in the dark backend. The bunny head
-        is drawn bold enough to stay readable at the 16px of the module menu.
+        Module icon of EXT:news_bunny, drawn in the TYPO3 v14 icon language that the
+        default backend theme Camino uses: no background rectangle, the silhouette in
+        currentColor so it inherits the theme's text color, and exactly one accent taken
+        from the Core "icon-color-accent" CSS token so a theme can retint it.
+
+        currentColor is what makes the same file correct in the light and in the dark
+        color scheme - there is no separate dark icon and no media query inside the
+        SVG, because the Core switches the scheme through the surrounding text color.
+
+        The bunny head keeps the silhouette of the previous icon, only the drawing moved
+        from the v13 "white glyph on a colored box" style to this one. The shape is kept
+        bold on purpose: the module menu renders it at 16px.
     -->
-    <rect width="64" height="64" fill="#4CA55F"/>
-    <g fill="#FFF">
-        <ellipse cx="20.5" cy="21" rx="5.2" ry="12" transform="rotate(-14 20.5 21)"/>
-        <ellipse cx="43.5" cy="21" rx="5.2" ry="12" transform="rotate(14 43.5 21)"/>
-        <path fill-rule="evenodd"
-              d="M22 28h20a10 10 0 0 1 10 10v6a10 10 0 0 1-10 10H22a10 10 0 0 1-10-10v-6a10 10 0 0 1 10-10z
-                 m4.5 12a3 3 0 1 0 0 6 3 3 0 0 0 0-6z
-                 m13 0a3 3 0 1 0 0 6 3 3 0 0 0 0-6z"/>
+    <g fill="currentColor">
+        <ellipse cx="21" cy="22" rx="5.5" ry="14" transform="rotate(-12 21 22)"/>
+        <ellipse cx="43" cy="22" rx="5.5" ry="14" transform="rotate(12 43 22)"/>
+        <path d="M22 30h20a12 12 0 0 1 12 12v2a12 12 0 0 1-12 12H22a12 12 0 0 1-12-12v-2a12 12 0 0 1 12-12Z"/>
+    </g>
+    <!-- The eyes are the single accent: the only place the theme accent color is used. -->
+    <g fill="var(--icon-color-accent, #ff8700)">
+        <circle cx="25" cy="43" r="3.2"/>
+        <circle cx="39" cy="43" r="3.2"/>
     </g>
 </svg>
