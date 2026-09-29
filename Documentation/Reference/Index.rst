@@ -116,7 +116,8 @@ Files
    * - :file:`Classes/Service/PageTreeBuilder.php`
      - The page tree with the number of records, and the pages of a page subtree
    * - :file:`Classes/Service/SettingsProvider.php`
-     - The settings, merged from the defaults and the page TSconfig
+     - The settings, merged from the defaults and the page TSconfig, and the widths of the
+       columns of the record list
    * - :file:`Resources/Private/Language/locallang.xlf`
      - The labels of the module
 

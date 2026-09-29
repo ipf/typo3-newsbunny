@@ -4,12 +4,43 @@
 
 <f:if condition="{records}">
     <f:then>
-        <div class="table-responsive">
-            <table class="table table-striped table-hover">
+        <!--
+            "table-fit" is the wrapper of the Core tables in TYPO3 14 and scrolls the table
+            horizontally, "table-responsive" is the one that does this in TYPO3 13. Both
+            classes are set, because each version only knows its own.
+
+            The table renders with a fixed layout, so the widths of the colgroup are the
+            widths of the columns. Without them the browser would hand the space of the
+            table to the column with the longest content and break a date into two lines,
+            the teaser and the title of a record are both long.
+
+            The min-width is what the wrapper scrolls for: a table with a fixed layout does
+            not widen itself for content that does not fit into a column, it lets the
+            content overflow instead, and the badges of the status column would then sit on
+            top of the text of the column next to it.
+
+            The classes of the columns are "nb-col-{column}" and not "col-{column}": the
+            Core brings its own column classes for its tables under the same names, and
+            ".table .col-title" is 99 percent wide there, which would win over the widths
+            of the colgroup above.
+        -->
+        <div class="table-responsive table-fit">
+            <table class="table table-striped table-hover"
+                   style="table-layout: fixed; min-width: {columnLayout.minWidth}">
+                <colgroup>
+                    <f:for each="{columns}" as="column">
+                        <col style="width: {columnLayout.widths.{column}}"/>
+                    </f:for>
+                    <col style="width: {columnLayout.widths.control}"/>
+                </colgroup>
                 <thead>
                     <tr>
                         <f:for each="{columns}" as="column">
-                            <th class="col-{column}">
+                            <f:variable name="columnClass">nb-col-{column}</f:variable>
+                            <f:if condition="{columnLayout.nowrap.{column}}">
+                                <f:variable name="columnClass">{columnClass} text-nowrap</f:variable>
+                            </f:if>
+                            <th class="{columnClass}">
                                 <f:if condition="{sortingLinks.{column}}">
                                     <a href="{sortingLinks.{column}}" class="fw-bold">
                                         <f:translate key="list.column.{column}"/>
@@ -23,18 +54,22 @@
                                 </f:if>
                             </th>
                         </f:for>
-                        <th class="col-control"></th>
+                        <th class="nb-col-control"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <f:for each="{records}" as="record">
-                        <tr class="{f:if(condition: record.isHidden, then: 'opacity-50')}">
+                        <tr class="{f:if(condition: record.isHidden, then: ' opacity-50')}">
                             <f:for each="{columns}" as="column">
-                                <td class="col-{column}">
+                                <f:variable name="columnClass">nb-col-{column}</f:variable>
+                                <f:if condition="{columnLayout.nowrap.{column}}">
+                                    <f:variable name="columnClass">{columnClass} text-nowrap</f:variable>
+                                </f:if>
+                                <td class="{columnClass}">
                                     <f:render partial="NewsBunny/RecordCell" arguments="{column: column, record: record}"/>
                                 </td>
                             </f:for>
-                            <td class="col-control text-nowrap text-end">
+                            <td class="nb-col-control text-nowrap text-end">
                                 <f:render partial="NewsBunny/RecordActions" arguments="{_all}"/>
                             </td>
                         </tr>

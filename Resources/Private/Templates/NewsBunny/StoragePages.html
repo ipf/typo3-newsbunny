@@ -18,7 +18,12 @@
 
     <f:if condition="{rows}">
         <f:then>
-            <div class="table-responsive">
+            <!--
+                "table-fit" is the wrapper of the Core tables in TYPO3 14 and scrolls the
+                table horizontally, "table-responsive" is the one that does this in TYPO3
+                13. Both classes are set, because each version only knows its own.
+            -->
+            <div class="table-responsive table-fit">
                 <table class="table table-striped table-hover">
                     <thead>
                         <tr>
@@ -26,7 +31,7 @@
                             <th class="text-end"><f:translate key="storagePages.column.news"/></th>
                             <th class="text-end"><f:translate key="storagePages.column.categories"/></th>
                             <th class="text-end"><f:translate key="storagePages.column.tags"/></th>
-                            <th class="col-control text-end">
+                            <th class="text-nowrap text-end">
                                 <f:translate key="storagePages.column.actions"/>
                             </th>
                         </tr>
@@ -45,7 +50,7 @@
                                 <td class="text-end">{row.newsCount}</td>
                                 <td class="text-end">{row.categoryCount}</td>
                                 <td class="text-end">{row.tagCount}</td>
-                                <td class="col-control text-end text-nowrap">
+                                <td class="text-end text-nowrap">
                                     <f:if condition="{row.pageEditUrl}">
                                         <a href="{row.pageEditUrl}" class="btn btn-default btn-sm">
                                             <f:translate key="list.actions.edit"/>

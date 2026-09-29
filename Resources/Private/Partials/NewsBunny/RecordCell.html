@@ -110,6 +110,11 @@
         </f:if>
     </f:case>
 
+    <!--
+        A record without a state is a normal record, so the cell stays empty. A placeholder
+        like a dash would only make the reader wonder what it stands for, and the badges of
+        the records that do have a state stay readable next to the empty cells.
+    -->
     <f:case value="status">
         <f:if condition="{record.isHidden}">
             <span class="badge badge-danger"><f:translate key="list.badge.hidden"/></span>
@@ -122,9 +127,6 @@
         </f:if>
         <f:if condition="{record.isTimeRestricted}">
             <span class="badge badge-info"><f:translate key="list.badge.timeRestricted"/></span>
-        </f:if>
-        <f:if condition="{!record.isHidden}{!record.isTopNews}{!record.isArchived}{!record.isTimeRestricted}">
-            <span class="text-body-secondary">-</span>
         </f:if>
     </f:case>
 </f:switch>

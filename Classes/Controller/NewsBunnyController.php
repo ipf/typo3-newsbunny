@@ -118,6 +118,8 @@ final class NewsBunnyController extends ActionController
         $this->addButtonBarButtons($moduleTemplate, $context);
         $this->prepareModuleTemplate($moduleTemplate);
 
+        $columns = $context->settings->getColumns();
+
         // One grouped query serves both the header and the indicator of the page tree
         $newsCounts = $this->newsRepository->countNewsByPage($context->pageIds);
 
@@ -142,7 +144,7 @@ final class NewsBunnyController extends ActionController
                 'pageCount' => $pageCount,
                 'perPageOptions' => NewsConstraint::PER_PAGE_OPTIONS,
                 'formValues' => $this->createFormValues($constraint),
-                'columns' => $context->settings->getColumns(),
+                'columns' => $columns,
                 'localizationView' => $context->settings->getBool('localizationView'),
                 'controlPanels' => $controlPanels,
                 'sortable' => $this->isRecordTableSortingAware(),
@@ -150,6 +152,7 @@ final class NewsBunnyController extends ActionController
                 'categoryOptions' => $this->newsRepository->findCategories($this->resolveCategoryRoots($context)),
                 'sortingLinks' => $this->createSortingLinks($constraint, $context),
                 'sortingIcons' => $this->createSortingIcons($constraint),
+                'columnLayout' => $context->settings->getColumnLayout($columns),
                 'pagination' => $this->createPagination($constraint, $pageCount),
                 'resetUrl' => $this->createResetUri($constraint, $context),
                 'storagePagesUrl' => $this->createModuleUri(['action' => 'storagePages']),

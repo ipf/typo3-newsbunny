@@ -6,6 +6,7 @@ namespace Ipf\NewsBunny\Tests\Functional\Service;
 
 use Ipf\NewsBunny\Service\SettingsProvider;
 use Ipf\NewsBunny\Tests\Functional\AbstractFunctionalTestCase;
+use PHPUnit\Framework\Attributes\DataProvider;
 
 /**
  * Fixture "settings_pages":
@@ -251,5 +252,106 @@ final class SettingsProviderTest extends AbstractFunctionalTestCase
         $this->subject->applyPageTsConfig(2);
 
         self::assertSame(['title', 'teaser', 'datetime', 'categories', 'status'], $this->subject->getColumns());
+    }
+
+    public function testEveryColumnOfTheListGetsAWidth(): void
+    {
+        $layout = $this->subject->getColumnLayout(['title', 'teaser', 'datetime', 'status']);
+
+        self::assertSame(
+            ['title', 'teaser', 'datetime', 'status', 'control'],
+            array_keys($layout['widths']),
+            'the configured columns and the column of the actions get a width'
+        );
+    }
+
+    /**
+     * A table with a fixed layout hands the space that is left over to the last column, so
+     * a sum below 100 would blow up the column of the buttons.
+     */
+    #[DataProvider('columnSetProvider')]
+    public function testTheWidthsAddUpToTheWholeTable(array $columns): void
+    {
+        $widths = $this->subject->getColumnLayout($columns)['widths'];
+
+        $percent = array_map(static fn(string $width): int => (int)rtrim($width, '%'), $widths);
+
+        self::assertSame(100, array_sum($percent), 'the widths of ' . implode(', ', $columns));
+    }
+
+    #[DataProvider('columnSetProvider')]
+    public function testTheButtonsKeepAShareOfTheirOwn(array $columns): void
+    {
+        $widths = $this->subject->getColumnLayout($columns)['widths'];
+
+        $percent = (int)rtrim($widths['control'], '%');
+
+        self::assertGreaterThanOrEqual(12, $percent, 'the buttons of a record need room');
+        self::assertLessThanOrEqual(24, $percent, 'the buttons must not take the table');
+    }
+
+    public function testTheShareOfTheButtonsDoesNotDependOnTheCountOfColumns(): void
+    {
+        $widths = [
+            $this->subject->getColumnLayout(['title', 'datetime'])['widths'],
+            $this->subject->getColumnLayout(['title', 'teaser', 'datetime', 'categories', 'status'])['widths'],
+            $this->subject->getColumnLayout($this->subject::COLUMNS)['widths'],
+        ];
+
+        foreach ($widths as $layout) {
+            $percent = (int)rtrim($layout['control'], '%');
+            self::assertGreaterThanOrEqual(12, $percent);
+            self::assertLessThanOrEqual(24, $percent);
+        }
+    }
+
+    public function testATitleOnlyListLeavesTheSpaceToTheTitle(): void
+    {
+        $widths = $this->subject->getColumnLayout(['title'])['widths'];
+
+        self::assertSame('76%', $widths['title']);
+        self::assertSame('24%', $widths['control']);
+    }
+
+    public function testTheTeaserGetsMoreRoomThanTheTitle(): void
+    {
+        $widths = $this->subject->getColumnLayout(['title', 'teaser'])['widths'];
+
+        self::assertGreaterThan((int)rtrim($widths['title'], '%'), (int)rtrim($widths['teaser'], '%'));
+    }
+
+    public function testTheColumnsWithAShortContentKeepOneLine(): void
+    {
+        $nowrap = $this->subject->getColumnLayout(
+            ['title', 'teaser', 'datetime', 'archive', 'crdate', 'tstamp', 'uid', 'language', 'status']
+        )['nowrap'];
+
+        // a date or a uid that wraps is the reason the widths exist at all
+        self::assertSame(
+            ['datetime', 'archive', 'crdate', 'tstamp', 'uid', 'language'],
+            array_keys($nowrap)
+        );
+    }
+
+    public function testTheColumnsWithLongContentMayWrap(): void
+    {
+        $nowrap = $this->subject->getColumnLayout(['title', 'teaser', 'page', 'categories', 'status'])['nowrap'];
+
+        self::assertSame([], $nowrap);
+    }
+
+    /**
+     * @return array<string, array{0: string[]}>
+     */
+    public static function columnSetProvider(): array
+    {
+        return [
+            'title only' => [['title']],
+            'default' => [['title', 'teaser', 'datetime', 'categories', 'status']],
+            'every column' => [[
+                'title', 'teaser', 'datetime', 'archive', 'categories', 'tags', 'author',
+                'path_segment', 'status', 'language', 'page', 'uid', 'crdate', 'tstamp',
+            ]],
+        ];
     }
 }
